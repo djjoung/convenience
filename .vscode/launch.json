@@ -1,0 +1,64 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-ReservationApplication<Reservation>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "convenience.store.ReservationApplication",
+            "projectName": "Reservation",
+            "args": ""
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-SupplierApplication<Supplier>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "convenience.store.SupplierApplication",
+            "projectName": "Supplier",
+            "args": ""
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-Application<boot-camp-gateway>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "com.example.Application",
+            "projectName": "boot-camp-gateway",
+            "args": ""
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-ViewApplication<View>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "convenience.store.ViewApplication",
+            "projectName": "View",
+            "args": ""
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-StoreApplication<Store>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "convenience.store.StoreApplication",
+            "projectName": "Store",
+            "args": ""
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-PayApplication<Pay>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "convenience.store.PayApplication",
+            "projectName": "Pay",
+            "args": ""
+        }
+    ]
+}
