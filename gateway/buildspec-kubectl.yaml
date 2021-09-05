@@ -51,8 +51,8 @@ phases:
               app: $_POD_NAME
           spec:
             ports:
-              - port: 8088
-                targetPort: 8088
+              - port: 8080
+                targetPort: 8080
             selector:
               app: $_POD_NAME
           EOF
@@ -78,11 +78,11 @@ phases:
                   - name: $_POD_NAME
                     image: $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$_PROJECT_NAME:$CODEBUILD_RESOLVED_SOURCE_VERSION
                     ports:
-                      - containerPort: 8088
+                      - containerPort: 8080
                     readinessProbe:
                       httpGet:
                         path: /actuator/health
-                        port: 8088
+                        port: 8080
                       initialDelaySeconds: 10
                       timeoutSeconds: 2
                       periodSeconds: 5
@@ -90,7 +90,7 @@ phases:
                     livenessProbe:
                       httpGet:
                         path: /actuator/health
-                        port: 8088
+                        port: 8080
                       initialDelaySeconds: 120
                       timeoutSeconds: 2
                       periodSeconds: 5
