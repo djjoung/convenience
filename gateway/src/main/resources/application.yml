@@ -1,0 +1,82 @@
+server:
+  port: 8088
+
+---
+
+spring:
+  profiles: default
+  cloud:
+    gateway:
+      routes:
+        - id: Reservation
+          uri: http://localhost:8081
+          predicates:
+            - Path=/reservations/** 
+        - id: Pay
+          uri: http://localhost:8082
+          predicates:
+            - Path=/payHistories/** 
+        - id: Store
+          uri: http://localhost:8083
+          predicates:
+            - Path=/products/**/storeReservations/** 
+        - id: View
+          uri: http://localhost:8084
+          predicates:
+            - Path= /dashboards/**
+        - id: Supplier
+          uri: http://localhost:8085
+          predicates:
+            - Path=/stocks/** 
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins:
+              - "*"
+            allowedMethods:
+              - "*"
+            allowedHeaders:
+              - "*"
+            allowCredentials: true
+
+
+---
+
+spring:
+  profiles: docker
+  cloud:
+    gateway:
+      routes:
+        - id: Reservation
+          uri: http://Reservation:8080
+          predicates:
+            - Path=/reservations/** 
+        - id: Pay
+          uri: http://Pay:8080
+          predicates:
+            - Path=/payHistories/** 
+        - id: Store
+          uri: http://Store:8080
+          predicates:
+            - Path=/products/**/storeReservations/** 
+        - id: View
+          uri: http://View:8080
+          predicates:
+            - Path= /dashboards/**
+        - id: Supplier
+          uri: http://Supplier:8080
+          predicates:
+            - Path=/stocks/** 
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins:
+              - "*"
+            allowedMethods:
+              - "*"
+            allowedHeaders:
+              - "*"
+            allowCredentials: true
+
+server:
+  port: 8080

@@ -1,0 +1,79 @@
+server:
+  port: 8080
+
+---
+
+spring:
+  profiles: default
+  jpa:
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+        ddl-auto: create-drop
+  datasource: 
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  h2:
+    console:
+      enabled: true
+      settings:
+        web-allow-others: true # 추가
+
+  cloud:
+    stream:
+      kafka:
+        binder:
+          brokers: localhost:9092
+        streams:
+          binder:
+            configuration:
+              default:
+                key:
+                  serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+                value:
+                  serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+      bindings:
+        event-in:
+          group: Reservation
+          destination: convenience.store
+          contentType: application/json
+        event-out:
+          destination: convenience.store
+          contentType: application/json
+
+
+
+logging:
+  level:
+    org.hibernate.type: trace
+    org.springframework.cloud: debug
+server:
+  port: 8081
+---
+
+spring:
+  profiles: docker
+  cloud:
+    stream:
+      kafka:
+        binder:
+          brokers: my-kafka.kafka.svc.cluster.local:9092
+        streams:
+          binder:
+            configuration:
+              default:
+                key:
+                  serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+                value:
+                  serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+      bindings:
+        event-in:
+          group: Reservation
+          destination: convenience.store
+          contentType: application/json
+        event-out:
+          destination: convenience.store
+          contentType: application/json
