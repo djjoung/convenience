@@ -2,11 +2,11 @@ package convenience.store;
 
 import javax.persistence.*;
 import org.springframework.beans.BeanUtils;
-// import java.util.List;
+import java.util.List;
 import java.util.Date;
 
 @Entity
-@Table(name="PayHistory_table")
+@Table(name="payhistory_table")
 public class PayHistory {
 
     @Id

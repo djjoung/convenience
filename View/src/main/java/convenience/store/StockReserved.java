@@ -5,7 +5,7 @@ import java.util.Date;
 public class StockReserved extends AbstractEvent {
 
     private Long id;
-    private Integer reserveId;
+    private Long reserveId;
     private Integer goodId;
     private String goodName;
     private Integer reserveQty;
@@ -19,11 +19,11 @@ public class StockReserved extends AbstractEvent {
     public void setId(Long id) {
         this.id = id;
     }
-    public Integer getReserveId() {
+    public Long getReserveId() {
         return reserveId;
     }
 
-    public void setReserveId(Integer reserveId) {
+    public void setReserveId(Long reserveId) {
         this.reserveId = reserveId;
     }
     public Integer getGoodId() {

@@ -15,7 +15,7 @@ public class StoreReservation {
     private Long reserveId;
     private Long productId;
     private String productName;
-    private Long reserveQty;
+    private Integer reserveQty;
     private Date reserveDate;
     private Long customerId;
     private String customerName;
@@ -62,11 +62,11 @@ public class StoreReservation {
     public void setProductName(String productName) {
         this.productName = productName;
     }
-    public Long getReserveQty() {
+    public Integer getReserveQty() {
         return reserveQty;
     }
 
-    public void setReserveQty(Long reserveQty) {
+    public void setReserveQty(Integer reserveQty) {
         this.reserveQty = reserveQty;
     }
     public Date getReserveDate() {

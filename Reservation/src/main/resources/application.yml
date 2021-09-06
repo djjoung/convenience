@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 8081
 
 ---
 
@@ -10,16 +10,15 @@ spring:
       hibernate:
         show_sql: true
         format_sql: true
-        ddl-auto: create-drop
-  datasource: 
-    url: jdbc:h2:mem:testdb
-    driver-class-name: org.h2.Driver
-    username: sa
-    password:
   h2:
     console:
       enabled: true
-      settings:
+      path: /h2-console
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password: 
         web-allow-others: true # 추가
 
   cloud:
@@ -38,13 +37,14 @@ spring:
       bindings:
         event-in:
           group: Reservation
-          destination: convenience.store
+          destination: convenience
           contentType: application/json
         event-out:
-          destination: convenience.store
+          destination: convenience
           contentType: application/json
 
-
+          
+          
 
 logging:
   level:
@@ -72,8 +72,8 @@ spring:
       bindings:
         event-in:
           group: Reservation
-          destination: convenience.store
+          destination: convenience
           contentType: application/json
         event-out:
-          destination: convenience.store
+          destination: convenience
           contentType: application/json

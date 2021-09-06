@@ -9,9 +9,13 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
 
 @Service
-public class PolicyHandler{
-    @Autowired ProductRepository productRepository;
-    @Autowired StoreReservationRepository storeReservationRepository;
+public class PolicyHandler {
+    
+	@Autowired 
+    ProductRepository productRepository;
+    
+    @Autowired 
+    StoreReservationRepository storeReservationRepository;
 
     @StreamListener(KafkaProcessor.INPUT)
     public void wheneverPayRequested_Reserve(@Payload PayRequested payRequested){
@@ -45,21 +49,17 @@ public class PolicyHandler{
         // storeReservationRepository.save(storeReservation);
 
     }
+    
+    // Stock에서 제품이 전달되었을때 제품의 갯수를 늘려준다 
     @StreamListener(KafkaProcessor.INPUT)
     public void wheneverProductDelivered_UpdateProduct(@Payload ProductDelivered productDelivered){
 
         if(!productDelivered.validate()) return;
-
         System.out.println("\n\n##### listener UpdateProduct : " + productDelivered.toJson() + "\n\n");
-
-
-
-        // Sample Logic //
-        // Product product = new Product();
-        // productRepository.save(product);
-        // StoreReservation storeReservation = new StoreReservation();
-        // storeReservationRepository.save(storeReservation);
-
+        
+        Product product = productRepository.findById(productDelivered.getProductId()).orElseThrow();
+        product.setProductQty(product.getProductQty() + productDelivered.getProductQty());        
+        productRepository.save(product);
     }
 
 

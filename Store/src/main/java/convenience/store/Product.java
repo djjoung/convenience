@@ -15,17 +15,23 @@ public class Product {
     private String productName;
     private Integer productPrice;
     private Integer productQty;
+    
+    // 상태별 Event 처리를 구분하기 위해 추가
+    @Transient
+    private String productStatus;
 
     @PostPersist
     public void onPostPersist(){
-        ProductPickedup productPickedup = new ProductPickedup();
-        BeanUtils.copyProperties(this, productPickedup);
-        productPickedup.publishAfterCommit();
-
-        ProductOrdered productOrdered = new ProductOrdered();
-        BeanUtils.copyProperties(this, productOrdered);
-        productOrdered.publishAfterCommit();
-
+    			
+    	if (this.getProductStatus().equals("PICKUP")) {
+    		ProductPickedup productPickedup = new ProductPickedup();
+            BeanUtils.copyProperties(this, productPickedup);
+            productPickedup.setProductStatus("PICKUP");
+            productPickedup.publishAfterCommit();
+    	} else {
+    		System.out.println("Nothing happened");
+    	}
+    	
     }
 
     public Long getId() {
@@ -57,7 +63,13 @@ public class Product {
         this.productQty = productQty;
     }
 
+	public String getProductStatus() {
+		return productStatus;
+	}
 
-
+	public void setProductStatus(String productStatus) {
+		this.productStatus = productStatus;
+	} 
+    
 
 }

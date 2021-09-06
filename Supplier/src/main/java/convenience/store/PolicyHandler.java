@@ -10,20 +10,21 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class PolicyHandler{
-    @Autowired StockRepository stockRepository;
+	
+    @Autowired 
+    StockRepository stockRepository;
 
     @StreamListener(KafkaProcessor.INPUT)
     public void wheneverProductOrdered_ProductOrdered(@Payload ProductOrdered productOrdered){
 
         if(!productOrdered.validate()) return;
-
         System.out.println("\n\n##### listener ProductOrdered : " + productOrdered.toJson() + "\n\n");
-
-
-
-        // Sample Logic //
-        // Stock stock = new Stock();
-        // stockRepository.save(stock);
+        
+        Stock stock = new Stock();
+        stock.setProductId(productOrdered.getId());
+        stock.setProductName(productOrdered.getProductName());
+        stock.setProductQty(productOrdered.getProductQty());
+        stockRepository.save(stock);
 
     }
 

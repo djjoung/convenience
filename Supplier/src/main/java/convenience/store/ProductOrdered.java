@@ -14,25 +14,32 @@ public class ProductOrdered extends AbstractEvent {
     public void setId(Long id) {
         this.id = id;
     }
-    public String getStockName() {
-        return productName;
-    }
 
-    public void setStockName(String productName) {
-        this.productName = productName;
-    }
-    public Integer getStockPrice() {
-        return productPrice;
-    }
+	public String getProductName() {
+		return productName;
+	}
 
-    public void setStockPrice(Integer productPrice) {
-        this.productPrice = productPrice;
-    }
-    public Integer getSotckQty() {
-        return productQty;
-    }
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
 
-    public void setSotckQty(Integer productQty) {
-        this.productQty = productQty;
-    }
+	public Integer getProductPrice() {
+		return productPrice;
+	}
+
+	public void setProductPrice(Integer productPrice) {
+		this.productPrice = productPrice;
+	}
+
+	public Integer getProductQty() {
+		return productQty;
+	}
+
+	public void setProductQty(Integer productQty) {
+		this.productQty = productQty;
+	}
+    
+    
+    
+    
 }

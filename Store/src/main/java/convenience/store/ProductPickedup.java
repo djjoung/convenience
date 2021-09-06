@@ -3,9 +3,10 @@ package convenience.store;
 public class ProductPickedup extends AbstractEvent {
 
     private Long id;
-    private String stockName;
-    private Integer stockPrice;
-    private Integer sotckQty;
+    private String productName;
+    private Integer productPrice;
+    private Integer productQty;    
+    private String productStatus;
 
     public ProductPickedup(){
         super();
@@ -18,25 +19,38 @@ public class ProductPickedup extends AbstractEvent {
     public void setId(Long id) {
         this.id = id;
     }
-    public String getStockName() {
-        return stockName;
-    }
 
-    public void setStockName(String stockName) {
-        this.stockName = stockName;
-    }
-    public Integer getStockPrice() {
-        return stockPrice;
-    }
+	public String getProductName() {
+		return productName;
+	}
 
-    public void setStockPrice(Integer stockPrice) {
-        this.stockPrice = stockPrice;
-    }
-    public Integer getSotckQty() {
-        return sotckQty;
-    }
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
 
-    public void setSotckQty(Integer sotckQty) {
-        this.sotckQty = sotckQty;
-    }
+	public Integer getProductPrice() {
+		return productPrice;
+	}
+
+	public void setProductPrice(Integer productPrice) {
+		this.productPrice = productPrice;
+	}
+
+	public Integer getProductQty() {
+		return productQty;
+	}
+
+	public void setProductQty(Integer productQty) {
+		this.productQty = productQty;
+	}
+
+	public String getProductStatus() {
+		return productStatus;
+	}
+
+	public void setProductStatus(String productStatus) {
+		this.productStatus = productStatus;
+	}
+    
+    
 }

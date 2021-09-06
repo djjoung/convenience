@@ -26,11 +26,11 @@ public class DashboardViewHandler {
             // view 객체 생성
             Dashboard dashboard = new Dashboard();
             // view 객체에 이벤트의 Value 를 set 함
-            // dashboard.setGoodId(productReserved.getProductId());
-            // dashboard.setGoodName(productReserved.getProductName());
-            // dashboard.setGoodPrice(productReserved.getProductPrice());
-            // dashboard.setGoodQty(productReserved.getReserveQty());
-            dashboard.setCustomerId(Long.parseLong(productReserved.getCustomerId()));
+            dashboard.setId(productReserved.getProductId());
+            dashboard.setProductName(productReserved.getProductName());
+            dashboard.setProductPrice(productReserved.getProductPrice());
+            dashboard.setReserveQty(productReserved.getReserveQty());
+            dashboard.setCustomerId(productReserved.getCustomerId());
             dashboard.setCustomerName(productReserved.getCustomerName());
             dashboard.setCustomerPhone(productReserved.getCustomerPhone());
             dashboard.setReserveId(productReserved.getId());
@@ -89,7 +89,7 @@ public class DashboardViewHandler {
                     List<Dashboard> dashboardList = dashboardRepository.findByReserveStatus(stockReserved.getReserveStatus());
                     for(Dashboard dashboard : dashboardList){
                     // view 객체에 이벤트의 eventDirectValue 를 set 함
-                    dashboard.setReserveId(Long.valueOf(stockReserved.getReserveId()));
+                    dashboard.setReserveId(stockReserved.getReserveId());
                 // view 레파지 토리에 save
                 dashboardRepository.save(dashboard);
                 }
@@ -107,7 +107,7 @@ public class DashboardViewHandler {
                     List<Dashboard> dashboardList = dashboardRepository.findByReserveStatus(stockReserveCancelled.getReserveStatus());
                     for(Dashboard dashboard : dashboardList){
                     // view 객체에 이벤트의 eventDirectValue 를 set 함
-                    dashboard.setReserveId(Long.valueOf(stockReserveCancelled.getReserveId()));
+                    dashboard.setReserveId(stockReserveCancelled.getReserveId());
                 // view 레파지 토리에 save
                 dashboardRepository.save(dashboard);
                 }
