@@ -88,3 +88,9 @@ spring:
         event-out:
           destination: convenience
           contentType: application/json
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"    
+        
