@@ -3,7 +3,7 @@ version: 0.2
 env:
   variables:
     _PROJECT_NAME: "user-dongjin-store"
-    _POD_NAME: "Store"
+    _POD_NAME: "store"  # low case character
 
 phases:
   install:
