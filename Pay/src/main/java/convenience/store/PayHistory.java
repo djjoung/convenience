@@ -24,15 +24,35 @@ public class PayHistory {
     private Date reserveDate;
     private Date date;
 
+
+    @PrePersist
+    public void onPrePersist(){
+		System.out.println("\n\n##### PayHistory onPrePersist  " + /* payRequested.toJson() + */"\n\n");
+
+        // HPA test 용 지연 코드.
+        try {
+            Thread.currentThread().sleep((long) (2400 + Math.random() * 220));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }             
+	}
+
+
     @PostPersist
     public void onPostPersist(){
+
+        
+        
         PayRequested payRequested = new PayRequested();
         BeanUtils.copyProperties(this, payRequested);
         payRequested.publishAfterCommit();
 
-        PayCancelled payCancelled = new PayCancelled();
-        BeanUtils.copyProperties(this, payCancelled);
-        payCancelled.publishAfterCommit();
+        System.out.println("\n\n##### PayHistory onPostPersist  " + payRequested.toJson() + "\n\n");
+        
+
+        // PayCancelled payCancelled = new PayCancelled();
+        // BeanUtils.copyProperties(this, payCancelled);
+        // payCancelled.publishAfterCommit();
 
     }
 
