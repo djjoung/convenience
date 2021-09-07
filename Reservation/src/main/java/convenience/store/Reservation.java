@@ -61,16 +61,16 @@ public class Reservation {
 
     @PostPersist
     public void onPostPersist(){
-        ProductReserved productReserved = new ProductReserved();
-        BeanUtils.copyProperties(this, productReserved);
-        productReserved.publishAfterCommit();
+        // ProductReserved productReserved = new ProductReserved();
+        // BeanUtils.copyProperties(this, productReserved);
+        // productReserved.publishAfterCommit();
 
-        //Following code causes dependency to external APIs
-        // it is NOT A GOOD PRACTICE. instead, Event-Policy mapping is recommended.
+        // //Following code causes dependency to external APIs
+        // // it is NOT A GOOD PRACTICE. instead, Event-Policy mapping is recommended.
 
-        convenience.store.external.PayHistory payHistory = new convenience.store.external.PayHistory();
-        // mappings goes here
-        ReservationApplication.applicationContext.getBean(convenience.store.external.PayHistoryService.class).request(payHistory);
+        // convenience.store.external.PayHistory payHistory = new convenience.store.external.PayHistory();
+        // // mappings goes here
+        // ReservationApplication.applicationContext.getBean(convenience.store.external.PayHistoryService.class).request(payHistory);
 
         ReservationCancelled reservationCancelled = new ReservationCancelled();
         BeanUtils.copyProperties(this, reservationCancelled);
