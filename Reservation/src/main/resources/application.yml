@@ -51,7 +51,11 @@ hystrix:
     default:
       execution.isolation.thread.timeoutInMilliseconds: 610
           
-          
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"    
 
 logging:
   level:
