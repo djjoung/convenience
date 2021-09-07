@@ -2,7 +2,8 @@ version: 0.2
 
 env:
   variables:
-    _PROJECT_NAME: "view"  # low case character
+    _PROJECT_NAME: "user-dongjin-view"
+    _POD_NAME: "supplier"  # low case character
 
 phases:
   install:
@@ -18,6 +19,7 @@ phases:
     commands:
       - echo Logging in to Amazon ECR...
       - echo $_PROJECT_NAME
+      - echo _POD_NAME
       - echo $AWS_ACCOUNT_ID
       - echo $AWS_DEFAULT_REGION
       - echo $CODEBUILD_RESOLVED_SOURCE_VERSION
@@ -44,36 +46,36 @@ phases:
           apiVersion: v1
           kind: Service
           metadata:
-            name: $_PROJECT_NAME
+            name: $_POD_NAME
             labels:
-              app: $_PROJECT_NAME
+              app: $_POD_NAME
           spec:
             ports:
               - port: 8080
                 targetPort: 8080
             selector:
-              app: $_PROJECT_NAME
+              app: $_POD_NAME
           EOF
       - |
           cat  <<EOF | kubectl apply -f -
           apiVersion: apps/v1
           kind: Deployment
           metadata:
-            name: $_PROJECT_NAME
+            name: $_POD_NAME
             labels:
-              app: $_PROJECT_NAME
+              app: $_POD_NAME
           spec:
             replicas: 1
             selector:
               matchLabels:
-                app: $_PROJECT_NAME
+                app: $_POD_NAME
             template:
               metadata:
                 labels:
-                  app: $_PROJECT_NAME
+                  app: $_POD_NAME
               spec:
                 containers:
-                  - name: $_PROJECT_NAME
+                  - name: $_POD_NAME
                     image: $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$_PROJECT_NAME:$CODEBUILD_RESOLVED_SOURCE_VERSION
                     ports:
                       - containerPort: 8080
