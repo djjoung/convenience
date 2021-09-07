@@ -48,6 +48,8 @@ public class Reservation {
 
         //Following code causes dependency to external APIs
         // it is NOT A GOOD PRACTICE. instead, Event-Policy mapping is recommended.
+
+        // CB test 용 지연 코드.
         try {
             Thread.currentThread().sleep((long) (400 + Math.random() * 220));
         } catch (InterruptedException e) {
