@@ -16,7 +16,7 @@ public class Product {
     private Integer productPrice;
     private Integer productQty;
     
-    // »óÅÂº° Event Ã³¸®¸¦ ±¸ºĞÇÏ±â À§ÇØ Ãß°¡
+    // ìƒíƒœë³„ Event ì²˜ë¦¬ë¥¼ êµ¬ë¶„í•˜ê¸° ìœ„í•´ ì¶”ê°€
     @Transient
     private String productStatus;
 

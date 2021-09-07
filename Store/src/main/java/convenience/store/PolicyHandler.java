@@ -50,14 +50,14 @@ public class PolicyHandler {
 
     }
     
-    // Stock¿¡¼­ Á¦Ç°ÀÌ Àü´ŞµÇ¾úÀ»¶§ Á¦Ç°ÀÇ °¹¼ö¸¦ ´Ã·ÁÁØ´Ù 
+    // Stockì—ì„œ ì œí’ˆì´ ì „ë‹¬ë˜ì—ˆì„ë•Œ ì œí’ˆì˜ ê°¯ìˆ˜ë¥¼ ëŠ˜ë ¤ì¤€ë‹¤ 
     @StreamListener(KafkaProcessor.INPUT)
     public void wheneverProductDelivered_UpdateProduct(@Payload ProductDelivered productDelivered){
 
         if(!productDelivered.validate()) return;
         System.out.println("\n\n##### listener UpdateProduct : " + productDelivered.toJson() + "\n\n");
         
-        Product product = productRepository.findById(productDelivered.getProductId()).orElseThrow();
+        Product product = productRepository.findById(productDelivered.getProductId()).orElseThrow(null);
         product.setProductQty(product.getProductQty() + productDelivered.getProductQty());        
         productRepository.save(product);
     }

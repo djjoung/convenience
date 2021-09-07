@@ -23,11 +23,8 @@ import java.util.List;
     
     public boolean request(@RequestBody PayHistory payHistory)
     {
-
         System.out.println("productId : " + payHistory.getProductId());
         System.out.println("productQyt : " + payHistory.getReserveQty());
-
-        payHistoryRepository.save(payHistory);
 
         return true;
 

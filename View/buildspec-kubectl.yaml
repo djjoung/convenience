@@ -2,7 +2,7 @@ version: 0.2
 
 env:
   variables:
-    _PROJECT_NAME: "View"
+    _PROJECT_NAME: "view"  # low case character
 
 phases:
   install:

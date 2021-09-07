@@ -3,7 +3,7 @@ version: 0.2
 env:
   variables:
     _PROJECT_NAME: "user-dongjin-gateway"
-    _POD_NAME: "gateway"
+    _POD_NAME: "gateway"  # low case character
 
 phases:
   install:

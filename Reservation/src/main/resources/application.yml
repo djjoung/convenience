@@ -19,7 +19,6 @@ spring:
     url: jdbc:h2:mem:testdb
     username: sa
     password: 
-        web-allow-others: true # 추가
 
   cloud:
     stream:
@@ -42,7 +41,15 @@ spring:
         event-out:
           destination: convenience
           contentType: application/json
+feign:
+  hystrix:
+    enabled: true
 
+hystrix:
+  command:
+    # 전역설정 timeout이 610ms 가 넘으면 CB 처리.
+    default:
+      execution.isolation.thread.timeoutInMilliseconds: 610
           
           
 

@@ -3,7 +3,7 @@ version: 0.2
 env:
   variables:
     _PROJECT_NAME: "user-dongjin-reservation"
-    _POD_NAME: "reservation"
+    _POD_NAME: "reservation" # low case character
 
 phases:
   install:

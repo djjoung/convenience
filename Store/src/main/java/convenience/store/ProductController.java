@@ -22,14 +22,14 @@ import org.springframework.web.bind.annotation.RestController;
 	 @Autowired
 	 StoreReservationRepository storeReservationRepository;
 	 
-	//@ApiOperation(value = "»óÇ° ÀüÃ¼ Á¶È¸")
+	//@ApiOperation(value = "ìƒí’ˆ ì „ì²´ ì¡°íšŒ")
 	 @GetMapping("/list")
 	 public ResponseEntity<List<Product>> getProducts() {
 		 List<Product> productList = productRepository.findAll();
 		 return ResponseEntity.ok(productList);
 	 }
 
-	 //@ApiOperation(value = "»óÇ° ÁÖ¹®")
+	 //@ApiOperation(value = "ìƒí’ˆ ì£¼ë¬¸")
 	 @PostMapping("/order")
 	 public ResponseEntity<Product> orderProduct(@RequestBody Product product) {
 		 int orderedProductQty = product.getProductQty();
@@ -37,7 +37,7 @@ import org.springframework.web.bind.annotation.RestController;
 		 Product findedProduct = productRepository.findByProductName(product.getProductName());
 		 ProductOrdered productOrdered = new ProductOrdered();
 		 
-		 if (findedProduct == null) { // »óÇ°ÀÌ ¾ø´Â °æ¿ì °¹¼ö¸¦ 0°³·Î ÃÖÃÊ »ı¼ºÇÑ´Ù
+		 if (findedProduct == null) { // ìƒí’ˆì´ ì—†ëŠ” ê²½ìš° ê°¯ìˆ˜ë¥¼ 0ê°œë¡œ ìµœì´ˆ ìƒì„±í•œë‹¤
 			 product.setProductQty(0);
 			 product = productRepository.save(product);
 			 BeanUtils.copyProperties(product, productOrdered);
@@ -45,18 +45,18 @@ import org.springframework.web.bind.annotation.RestController;
 			 BeanUtils.copyProperties(findedProduct, productOrdered);			 
 		 }       
                  
-		 productOrdered.setProductQty(orderedProductQty); // ±âÁ¸¿¡ ÀÖ´ø »óÇ°ÀÇ °¹¼ö°¡ ¾Æ´Ñ ÁÖ¹®ÇÑ »óÇ° °¹¼ö·Î ¼ÂÆÃ 
+		 productOrdered.setProductQty(orderedProductQty); // ê¸°ì¡´ì— ìˆë˜ ìƒí’ˆì˜ ê°¯ìˆ˜ê°€ ì•„ë‹Œ ì£¼ë¬¸í•œ ìƒí’ˆ ê°¯ìˆ˜ë¡œ ì…‹íŒ… 
          productOrdered.publish();
 		 
 		 return ResponseEntity.ok(product);
 	 }
 	 
-	//@ApiOperation(value = "»óÇ° Ã£¾Æ°¡±â")
+	//@ApiOperation(value = "ìƒí’ˆ ì°¾ì•„ê°€ê¸°")
 	 @GetMapping("/pickup/{id}")
 	 public ResponseEntity<Product> pickupProduct(@PathVariable Long reserveId) {
 		 try {
-			 StoreReservation reservation = storeReservationRepository.findById(reserveId).orElseThrow();
-			 Product product = productRepository.findById(reservation.getProductId()).orElseThrow();			 
+			 StoreReservation reservation = storeReservationRepository.findById(reserveId).orElseThrow(null);
+			 Product product = productRepository.findById(reservation.getProductId()).orElseThrow(null);			 
 			 product.setProductQty(product.getProductQty() - reservation.getReserveQty());
 			 product.setProductStatus("PICKUP");
 			 productRepository.save(product);			 

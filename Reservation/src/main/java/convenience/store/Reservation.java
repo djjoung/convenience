@@ -48,10 +48,16 @@ public class Reservation {
 
         //Following code causes dependency to external APIs
         // it is NOT A GOOD PRACTICE. instead, Event-Policy mapping is recommended.
+        try {
+            Thread.currentThread().sleep((long) (400 + Math.random() * 220));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
     }
 
 
-@PostPersist
+    @PostPersist
     public void onPostPersist(){
         ProductReserved productReserved = new ProductReserved();
         BeanUtils.copyProperties(this, productReserved);
