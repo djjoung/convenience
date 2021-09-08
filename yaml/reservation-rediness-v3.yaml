@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: reservation
-          image: 422489764856.dkr.ecr.ca-central-1.amazonaws.com/user-dongjin-reservation:v3
+          image: 422489764856.dkr.ecr.ca-central-1.amazonaws.com/user-dongjin-reservation:ef4e90dd7529d4ee04aba684259499fb3ed8715f
           ports:
             - containerPort: 8080
           readinessProbe:
