@@ -97,7 +97,7 @@ phases:
                       failureThreshold: 5
           EOF
       - |
-          cat <<EOF kubectl apply -f 
+          cat <<EOF kubectl apply -f -
           kind: Pod
           apiVersion: v1
           metadata:
