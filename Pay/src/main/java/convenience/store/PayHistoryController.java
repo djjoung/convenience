@@ -16,7 +16,6 @@ public class PayHistoryController {
 	//@ApiOperation(value = "결제 진행하기")
 	@PostMapping("/request")
 	public boolean requestPay(@RequestBody PayHistory payHistory) {
-    {
    		PayHistory savedPayHistory = payhistoryRepository.save(payHistory);
         
 		System.out.println("productId : " + payHistory.getProductId());

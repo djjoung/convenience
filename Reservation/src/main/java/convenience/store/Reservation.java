@@ -49,9 +49,6 @@ public class Reservation {
         
         if(result) {
         	System.out.println("########## 결제가 완료되었습니다 ############");
-            //ProductReserved productReserved = new ProductReserved();
-            //BeanUtils.copyProperties(this, productReserved);
-            //productReserved.publishAfterCommit();
         }else{
             System.out.println("########## 결제가 실패하였습니다 ############");
         }

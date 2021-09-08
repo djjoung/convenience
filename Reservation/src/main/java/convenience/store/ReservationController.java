@@ -32,7 +32,7 @@ public class ReservationController {
 	//@ApiOperation(value = "상품 가져오기")
 	@GetMapping("/get/{id}")
 	public ResponseEntity<Reservation> getReservation(@PathVariable Long id) {
-		Reservation reservation = reservationRepository.findById(id).orElseThrow();
+		Reservation reservation = reservationRepository.findById(id).orElseThrow(null);
 		return ResponseEntity.ok(reservation);
 	}	
 	
@@ -50,7 +50,7 @@ public class ReservationController {
 	//@ApiOperation(value = "예약 취소하기")
 	@PatchMapping("/cancel")
 	public ResponseEntity<Reservation> cancelReservation(@RequestBody Long id) {
-		Reservation reservation = reservationRepository.findById(id).orElseThrow();
+		Reservation reservation = reservationRepository.findById(id).orElseThrow(null);
 		DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String dateStr = format.format(Calendar.getInstance().getTime());
 		reservation.setDate(dateStr);
