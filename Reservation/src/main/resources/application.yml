@@ -50,12 +50,7 @@ hystrix:
     # 전역설정 timeout이 610ms 가 넘으면 CB 처리.
     default:
       execution.isolation.thread.timeoutInMilliseconds: 610
-          
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"    
+
 
 logging:
   level:
@@ -88,9 +83,3 @@ spring:
         event-out:
           destination: convenience
           contentType: application/json
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"    
-        
