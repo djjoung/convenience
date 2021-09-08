@@ -119,10 +119,9 @@ phases:
             volumes:
               - name: volume
                 persistentVolumeClaim:
-                claimName: aws-efs
+                  claimName: aws-efs
           EOF
   
 cache:
   paths:
     - '/root/.m2/**/*'
-    
