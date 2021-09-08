@@ -32,16 +32,16 @@ public class PayHistory {
     private Date date;
 
 
-    @PrePersist
-    public void onPrePersist(){
-		System.out.println("\n\n##### PayHistory onPrePersist  " + /* payRequested.toJson() + */"\n\n");
+    // @PrePersist
+    // public void onPrePersist(){
+	// 	System.out.println("\n\n##### PayHistory onPrePersist  " + /* payRequested.toJson() + */"\n\n");
 
-        // HPA test 용 지연 코드.
-        double dLoad = 0.0001;
-        for (int iCnt = 0; iCnt <= 1000000; iCnt++) {
-            dLoad += Math.sqrt(dLoad);
-        }           
-	}
+    //     // HPA test 용 지연 코드.
+    //     double dLoad = 0.0001;
+    //     for (int iCnt = 0; iCnt <= 1000000; iCnt++) {
+    //         dLoad += Math.sqrt(dLoad);
+    //     }           
+	// }
 
     @PostPersist
     public void onPostPersist() {
