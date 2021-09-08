@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 8080 #for cloud
 
 ---
 
@@ -10,6 +10,15 @@ spring:
       hibernate:
         show_sql: true
         format_sql: true
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password:         
   cloud:
     stream:
       kafka:
@@ -26,10 +35,10 @@ spring:
       bindings:
         event-in:
           group: Pay
-          destination: convenience.store
+          destination: convenience
           contentType: application/json
         event-out:
-          destination: convenience.store
+          destination: convenience
           contentType: application/json
 
 logging:
@@ -58,8 +67,8 @@ spring:
       bindings:
         event-in:
           group: Pay
-          destination: convenience.store
+          destination: convenience
           contentType: application/json
         event-out:
-          destination: convenience.store
+          destination: convenience
           contentType: application/json

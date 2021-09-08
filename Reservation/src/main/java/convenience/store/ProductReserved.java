@@ -5,11 +5,13 @@ public class ProductReserved extends AbstractEvent {
     private Long id;
     private Long productId;
     private Integer productPrice;
-    private String customerId;
+    private Long customerId;
     private String customerName;
     private String customerPhone;
     private Integer reserveQty;
     private String productName;
+    private String date;
+    private String status;
 
     public ProductReserved(){
         super();
@@ -36,11 +38,11 @@ public class ProductReserved extends AbstractEvent {
     public void setProductPrice(Integer productPrice) {
         this.productPrice = productPrice;
     }
-    public String getCustomerId() {
+    public Long getCustomerId() {
         return customerId;
     }
 
-    public void setCustomerId(String customerId) {
+    public void setCustomerId(Long customerId) {
         this.customerId = customerId;
     }
     public String getCustomerName() {
@@ -71,4 +73,22 @@ public class ProductReserved extends AbstractEvent {
     public void setProductName(String productName) {
         this.productName = productName;
     }
+
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	
+	   
 }

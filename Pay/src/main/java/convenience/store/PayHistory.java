@@ -1,9 +1,16 @@
 package convenience.store;
 
-import javax.persistence.*;
-import org.springframework.beans.BeanUtils;
-import java.util.List;
 import java.util.Date;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.PostPersist;
+import javax.persistence.PostUpdate;
+import javax.persistence.Table;
+
+import org.springframework.beans.BeanUtils;
 
 @Entity
 @Table(name="payhistory_table")
@@ -13,8 +20,8 @@ public class PayHistory {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
     private String payStatus;
-    private String reservationStatus;
-    private Long reservationId;
+    private String reserveStatus;
+    private Long reserveId;
     private Long productId;
     private Long reserveQty;
     private Long productPrice;
@@ -36,23 +43,22 @@ public class PayHistory {
         }           
 	}
 
-
     @PostPersist
-    public void onPostPersist(){
-
-        
-        
-        PayRequested payRequested = new PayRequested();
-        BeanUtils.copyProperties(this, payRequested);
-        payRequested.publishAfterCommit();
-
-        System.out.println("\n\n##### PayHistory onPostPersist  " + payRequested.toJson() + "\n\n");
-        
-
-        // PayCancelled payCancelled = new PayCancelled();
-        // BeanUtils.copyProperties(this, payCancelled);
-        // payCancelled.publishAfterCommit();
-
+    public void onPostPersist() {
+    	if(this.reserveStatus.equals("RESERVE")) {
+    		PayRequested payRequested = new PayRequested();
+    		BeanUtils.copyProperties(this, payRequested);
+    		payRequested.publishAfterCommit();
+    	}
+    }
+    
+    @PostUpdate
+    public void onPostUpdate() {
+    	if(this.payStatus.equals("CANCEL")) {
+    		PayCancelled payCancelled = new PayCancelled();   
+    		BeanUtils.copyProperties(this, payCancelled);
+            payCancelled.publishAfterCommit();	
+    	}
     }
 
     public Long getId() {
@@ -69,19 +75,19 @@ public class PayHistory {
     public void setPayStatus(String payStatus) {
         this.payStatus = payStatus;
     }
-    public String getReservationStatus() {
-        return reservationStatus;
+    public String getReserveStatus() {
+        return reserveStatus;
     }
 
-    public void setReservationStatus(String reservationStatus) {
-        this.reservationStatus = reservationStatus;
+    public void setReserveStatus(String reserveStatus) {
+        this.reserveStatus = reserveStatus;
     }
-    public Long getReservationId() {
-        return reservationId;
+    public Long getReserveId() {
+        return reserveId;
     }
 
-    public void setReservationId(Long reservationId) {
-        this.reservationId = reservationId;
+    public void setReserveId(Long reserveId) {
+        this.reserveId = reserveId;
     }
     public Long getProductId() {
         return productId;

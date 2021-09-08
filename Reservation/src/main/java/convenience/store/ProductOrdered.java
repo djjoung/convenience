@@ -1,15 +1,14 @@
 package convenience.store;
 
-public class ProductPickedup extends AbstractEvent {
+public class ProductOrdered extends AbstractEvent {
 
     private Long id;
-    private Long reserveId;
     private String productName;
     private Integer productPrice;
-    private Integer productQty;    
+    private Integer productQty;
     private String productStatus;
 
-    public ProductPickedup(){
+    public ProductOrdered(){
         super();
     }
 
@@ -20,14 +19,6 @@ public class ProductPickedup extends AbstractEvent {
     public void setId(Long id) {
         this.id = id;
     }
-    
-	public Long getReserveId() {
-		return reserveId;
-	}
-
-	public void setReserveId(Long reserveId) {
-		this.reserveId = reserveId;
-	}
 
 	public String getProductName() {
 		return productName;
@@ -60,6 +51,7 @@ public class ProductPickedup extends AbstractEvent {
 	public void setProductStatus(String productStatus) {
 		this.productStatus = productStatus;
 	}
+   
     
     
 }

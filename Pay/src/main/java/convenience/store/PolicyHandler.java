@@ -10,41 +10,23 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class PolicyHandler{
-    @Autowired PayHistoryRepository payHistoryRepository;
+    
+	@Autowired 
+    PayHistoryRepository payHistoryRepository;
 
     @StreamListener(KafkaProcessor.INPUT)
     public void wheneverReservationCancelled_Cancel(@Payload ReservationCancelled reservationCancelled){
 
         if(!reservationCancelled.validate()) return;
-
         System.out.println("\n\n##### listener Cancel : " + reservationCancelled.toJson() + "\n\n");
 
-
-
-        // Sample Logic //
-        // PayHistory payHistory = new PayHistory();
-        // payHistoryRepository.save(payHistory);
-
+        if (reservationCancelled.getStatus().equals("CANCEL")) {
+        	PayHistory payHistory = payHistoryRepository.findById(reservationCancelled.getId()).orElseThrow();
+        	payHistory.setPayStatus("CANCEL");
+        	payHistory.setReserveStatus("CANCEL");
+        	payHistoryRepository.save(payHistory);        	
+        }        
+        
     }
-    /* 중복 생성으로 주석처리 
-    @StreamListener(KafkaProcessor.INPUT)
-    public void wheneverReservationCancelled_Cancel(@Payload ReservationCancelled reservationCancelled){
-
-        if(!reservationCancelled.validate()) return;
-
-        System.out.println("\n\n##### listener Cancel : " + reservationCancelled.toJson() + "\n\n");
-
-
-
-        // Sample Logic //
-        // PayHistory payHistory = new PayHistory();
-        // payHistoryRepository.save(payHistory);
-
-    }
-    */
-
-    @StreamListener(KafkaProcessor.INPUT)
-    public void whatever(@Payload String eventString){}
-
 
 }

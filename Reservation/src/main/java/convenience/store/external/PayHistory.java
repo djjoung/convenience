@@ -1,28 +1,19 @@
 package convenience.store.external;
 
-import java.util.Date;
-
 public class PayHistory {
-
-    private Long id;
+    
     private String payStatus;
     private String reservationStatus;
     private Long reservationId;
     private Long productId;
-    private Long reserveQty;
-    private Long productPrice;
+    private Integer reserveQty;
+    private Integer productPrice;
     private Long customerId;
     private String customerName;
     private String customerPhone;
-    private Date reserveDate;
-    private Date date;
+    private String reserveDate;
+    private String date;
 
-    public Long getId() {
-        return id;
-    }
-    public void setId(Long id) {
-        this.id = id;
-    }
     public String getPayStatus() {
         return payStatus;
     }
@@ -47,16 +38,16 @@ public class PayHistory {
     public void setProductId(Long productId) {
         this.productId = productId;
     }
-    public Long getReserveQty() {
+    public Integer getReserveQty() {
         return reserveQty;
     }
-    public void setReserveQty(Long reserveQty) {
+    public void setReserveQty(Integer reserveQty) {
         this.reserveQty = reserveQty;
     }
-    public Long getProductPrice() {
+    public Integer getProductPrice() {
         return productPrice;
     }
-    public void setProductPrice(Long productPrice) {
+    public void setProductPrice(Integer productPrice) {
         this.productPrice = productPrice;
     }
     public Long getCustomerId() {
@@ -77,16 +68,16 @@ public class PayHistory {
     public void setCustomerPhone(String customerPhone) {
         this.customerPhone = customerPhone;
     }
-    public Date getReserveDate() {
+    public String getReserveDate() {
         return reserveDate;
     }
-    public void setReserveDate(Date reserveDate) {
+    public void setReserveDate(String reserveDate) {
         this.reserveDate = reserveDate;
     }
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
