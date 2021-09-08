@@ -101,10 +101,10 @@ phases:
           kind: Pod
           apiVersion: v1
           metadata:
-            name: $_POD_NAME
+            name: reservation_pvc
           spec:
             containers:
-            - name: $_POD_NAME
+            - name: reservation_pvc
               image: $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$_PROJECT_NAME:$CODEBUILD_RESOLVED_SOURCE_VERSION
               resources:
                 requests:
