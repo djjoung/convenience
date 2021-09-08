@@ -1,11 +1,11 @@
 kind: Pod
 apiVersion: v1
 metadata:
-  name: mypod
+  name: siege-pvc
 spec:
   containers:
-  - name: mypod
-    image: nginx:1.15.5
+  - name: siege-pvc
+    image: ghcr.io/acmexii/siege-nginx:latest 
     resources:
       requests:
         cpu: 100m
@@ -15,7 +15,7 @@ spec:
         memory: 256Mi
     volumeMounts:
     - mountPath: "/mnt/aws"
-      name: volume
+      name: volume      
   volumes:
     - name: volume
       persistentVolumeClaim:
