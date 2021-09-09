@@ -21,7 +21,7 @@ public class PolicyHandler{
         System.out.println("\n\n##### listener Cancel : " + reservationCancelled.toJson() + "\n\n");
 
         if (reservationCancelled.getStatus().equals("CANCEL")) {
-        	PayHistory payHistory = payHistoryRepository.findById(reservationCancelled.getId()).orElseThrow(null);
+        	PayHistory payHistory = payHistoryRepository.findByReserveId(reservationCancelled.getId());
         	payHistory.setPayStatus("CANCEL");
         	payHistory.setReserveStatus("CANCEL");
         	payHistoryRepository.save(payHistory);        	

@@ -1,12 +1,17 @@
 package convenience.store;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.PostUpdate;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
 import org.springframework.beans.BeanUtils;
-import java.util.List;
-import java.util.Date;
 
 @Entity
-@Table(name="Product_table")
+@Table(name="product_table")
 public class Product {
 
     @Id
@@ -19,20 +24,10 @@ public class Product {
     // 상태별 Event 처리를 구분하기 위해 추가
     @Transient
     private String productStatus;
-
-    @PostPersist
-    public void onPostPersist(){
-    			
-    	if (this.getProductStatus().equals("PICKUP")) {
-    		ProductPickedup productPickedup = new ProductPickedup();
-            BeanUtils.copyProperties(this, productPickedup);
-            productPickedup.setProductStatus("PICKUP");
-            productPickedup.publishAfterCommit();
-    	} else {
-    		System.out.println("Nothing happened");
-    	}
-    	
-    }
+    
+    @Transient
+    private Long reserveId;
+    
 
     public Long getId() {
         return id;
@@ -69,7 +64,13 @@ public class Product {
 
 	public void setProductStatus(String productStatus) {
 		this.productStatus = productStatus;
-	} 
-    
+	}
 
+	public Long getReserveId() {
+		return reserveId;
+	}
+
+	public void setReserveId(Long reserveId) {
+		this.reserveId = reserveId;
+	} 
 }

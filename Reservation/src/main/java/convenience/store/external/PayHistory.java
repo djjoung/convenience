@@ -3,8 +3,8 @@ package convenience.store.external;
 public class PayHistory {
     
     private String payStatus;
-    private String reservationStatus;
-    private Long reservationId;
+    private String reserveStatus;
+    private Long reserveId;
     private Long productId;
     private Integer reserveQty;
     private Integer productPrice;
@@ -20,19 +20,20 @@ public class PayHistory {
     public void setPayStatus(String payStatus) {
         this.payStatus = payStatus;
     }
-    public String getReservationStatus() {
-        return reservationStatus;
-    }
-    public void setReservationStatus(String reservationStatus) {
-        this.reservationStatus = reservationStatus;
-    }
-    public Long getReservationId() {
-        return reservationId;
-    }
-    public void setReservationId(Long reservationId) {
-        this.reservationId = reservationId;
-    }
-    public Long getProductId() {
+    
+    public String getReserveStatus() {
+		return reserveStatus;
+	}
+	public void setReserveStatus(String reserveStatus) {
+		this.reserveStatus = reserveStatus;
+	}
+	public Long getReserveId() {
+		return reserveId;
+	}
+	public void setReserveId(Long reserveId) {
+		this.reserveId = reserveId;
+	}
+	public Long getProductId() {
         return productId;
     }
     public void setProductId(Long productId) {

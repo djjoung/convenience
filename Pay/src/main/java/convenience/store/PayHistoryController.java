@@ -16,11 +16,18 @@ public class PayHistoryController {
 	//@ApiOperation(value = "결제 진행하기")
 	@PostMapping("/request")
 	public boolean requestPay(@RequestBody PayHistory payHistory) {
-   		PayHistory savedPayHistory = payhistoryRepository.save(payHistory);
+		
+		PayHistory savedPayHistory = payhistoryRepository.save(payHistory);
         
-		System.out.println("productId : " + payHistory.getProductId());
-        System.out.println("productQyt : " + payHistory.getReserveQty());
+		System.out.println("$$$$$$$$$$  결재 진행됨 . ##########");
 
-        return true;
-    }
- }
+        // CB test 용 지연 코드.
+        try {
+            Thread.currentThread().sleep((long) (400 + Math.random() * 220));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }		
+		
+		return true;
+	}
+}
