@@ -6,34 +6,32 @@ import java.util.List;
 import java.util.Date;
 
 @Entity
-@Table(name="StoreReservation_table")
+@Table(name="storereservation_table")
 public class StoreReservation {
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
     private Long reserveId;
-    private Long productId;
-    private String productName;
+    private Long productId;    
     private Integer reserveQty;
-    private Date reserveDate;
+    private String reserveDate;
     private Long customerId;
     private String customerName;
     private String customerPhone;
     private String reserveStatus;
-
-    @PostPersist
-    public void onPostPersist(){
-        StockReserved stockReserved = new StockReserved();
-        BeanUtils.copyProperties(this, stockReserved);
-        stockReserved.publishAfterCommit();
-
-        StockReserveCancelled stockReserveCancelled = new StockReserveCancelled();
-        BeanUtils.copyProperties(this, stockReserveCancelled);
-        stockReserveCancelled.publishAfterCommit();
-
+    
+    @PostUpdate
+    public void onPostUpdate(){    	
+    	if ("PICKUP".equals(this.getReserveStatus())) {    		
+    		ProductPickedup productPickedup = new ProductPickedup();
+            BeanUtils.copyProperties(this, productPickedup);            
+            productPickedup.publishAfterCommit();
+    	} else {
+    		System.out.println("############ Nothing happened");
+    	}    	
     }
-
+        
     public Long getId() {
         return id;
     }
@@ -55,13 +53,7 @@ public class StoreReservation {
     public void setProductId(Long productId) {
         this.productId = productId;
     }
-    public String getProductName() {
-        return productName;
-    }
 
-    public void setProductName(String productName) {
-        this.productName = productName;
-    }
     public Integer getReserveQty() {
         return reserveQty;
     }
@@ -69,11 +61,11 @@ public class StoreReservation {
     public void setReserveQty(Integer reserveQty) {
         this.reserveQty = reserveQty;
     }
-    public Date getReserveDate() {
+    public String getReserveDate() {
         return reserveDate;
     }
 
-    public void setReserveDate(Date reserveDate) {
+    public void setReserveDate(String reserveDate) {
         this.reserveDate = reserveDate;
     }
     public Long getCustomerId() {

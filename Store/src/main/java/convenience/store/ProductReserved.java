@@ -1,15 +1,18 @@
 package convenience.store;
 
-public class StockReserveCancelled extends AbstractEvent {
+import java.util.Date;
+
+public class ProductReserved extends AbstractEvent {
 
     private Long id;
     private Integer reserveId;
-    private Integer goodId;
-    private String goodName;
+    private Integer productId;
+    private String productName;
     private Integer reserveQty;
+    private Date reserveDate;
     private String reserveStatus;
 
-    public StockReserveCancelled(){
+    public ProductReserved(){
         super();
     }
 
@@ -27,26 +30,36 @@ public class StockReserveCancelled extends AbstractEvent {
     public void setReserveId(Integer reserveId) {
         this.reserveId = reserveId;
     }
-    public Integer getGoodId() {
-        return goodId;
-    }
+    
+    public Integer getProductId() {
+		return productId;
+	}
 
-    public void setGoodId(Integer goodId) {
-        this.goodId = goodId;
-    }
-    public String getGoodName() {
-        return goodName;
-    }
+	public void setProductId(Integer productId) {
+		this.productId = productId;
+	}
 
-    public void setGoodName(String goodName) {
-        this.goodName = goodName;
-    }
-    public Integer getReserveQty() {
+	public String getProductName() {
+		return productName;
+	}
+
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+
+	public Integer getReserveQty() {
         return reserveQty;
     }
 
     public void setReserveQty(Integer reserveQty) {
         this.reserveQty = reserveQty;
+    }
+    public Date getReserveDate() {
+        return reserveDate;
+    }
+
+    public void setReserveDate(Date reserveDate) {
+        this.reserveDate = reserveDate;
     }
     public String getReserveStatus() {
         return reserveStatus;

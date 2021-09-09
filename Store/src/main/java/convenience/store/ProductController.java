@@ -34,15 +34,15 @@ public class ProductController {
 	public ResponseEntity<Product> orderProduct(@RequestBody Product product) {
 		int orderedProductQty = product.getProductQty();
 		product.setProductStatus("ORDER");
-		Product findedProduct = productRepository.findByProductName(product.getProductName());
+		Product foundProduct = productRepository.findByProductName(product.getProductName());
 		ProductOrdered productOrdered = new ProductOrdered();
 		 
-		if (findedProduct == null) { // 상품이 없는 경우 갯수를 0개로 최초 생성한다
+		if (foundProduct == null) { // 상품이 없는 경우 갯수를 0개로 최초 생성한다
 			product.setProductQty(0);
 			product = productRepository.save(product);
 			BeanUtils.copyProperties(product, productOrdered);
 		} else {
-			BeanUtils.copyProperties(findedProduct, productOrdered);			 
+			BeanUtils.copyProperties(foundProduct, productOrdered);			 
 		}       
                  
 		productOrdered.setProductQty(orderedProductQty); // 기존에 있던 상품의 갯수가 아닌 주문한 상품 갯수로 셋팅 
@@ -52,15 +52,15 @@ public class ProductController {
 	}
 	 
 	//@ApiOperation(value = "상품 찾아가기")
-	@GetMapping("/pickup/{id}")
-	public ResponseEntity<Product> pickupProduct(@PathVariable Long reserveId) {
+	@GetMapping("/pickup/{reserveId}")
+	public ResponseEntity<StoreReservation> pickupProduct(@PathVariable Long reserveId) {
 		try {
-			StoreReservation reservation = storeReservationRepository.findById(reserveId).orElseThrow(null);
-			Product product = productRepository.findById(reservation.getProductId()).orElseThrow(null);			 
-			product.setProductQty(product.getProductQty() - reservation.getReserveQty());
-			product.setProductStatus("PICKUP");
-			productRepository.save(product);			 
-			return ResponseEntity.ok(product);			 
+			StoreReservation reservation = storeReservationRepository.findByReserveId(reserveId);
+			
+			reservation.setReserveStatus("PICKUP");
+			storeReservationRepository.save(reservation);			
+			
+			return ResponseEntity.ok(reservation);	 
 		} catch(Exception e) {
 			System.out.println("pickupProduct Error : " + e);
 			return null;

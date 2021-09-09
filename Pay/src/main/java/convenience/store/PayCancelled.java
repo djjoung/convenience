@@ -2,14 +2,23 @@ package convenience.store;
 
 public class PayCancelled extends AbstractEvent {
     
+	private Long id;
     private String payStatus;
     private String reserveStatus;
     private Long productId;
-    private Long reserveQty;
+    private Integer reserveQty;
     private Long reserveId;
 
     public PayCancelled(){
         super();
+    }
+    
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
     
     public String getPayStatus() {
@@ -35,11 +44,11 @@ public class PayCancelled extends AbstractEvent {
 		this.productId = productId;
 	}
 
-	public Long getReserveQty() {
+	public Integer getReserveQty() {
 		return reserveQty;
 	}
 
-	public void setReserveQty(Long reserveQty) {
+	public void setReserveQty(Integer reserveQty) {
 		this.reserveQty = reserveQty;
 	}
 

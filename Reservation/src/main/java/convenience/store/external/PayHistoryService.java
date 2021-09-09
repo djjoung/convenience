@@ -8,9 +8,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.Date;
 
-//@FeignClient(name="Pay", url="http://localhost:8082/pay", fallback = PayHistoryServiceImpl.class)  // for local
-@FeignClient(name="Pay", url="http://Pay:8080/pay", fallback = PayHistoryServiceImpl.class)  // for cloud
+//@FeignClient(name="pay", url="http://localhost:8082/pay", fallback = PayHistoryServiceImpl.class)  // for local
+@FeignClient(name="pay", url="http://pay:8080/pay", fallback = PayHistoryServiceImpl.class)  // for cloud
 public interface PayHistoryService {
+	
     @RequestMapping(method= RequestMethod.POST, path="/request")
     public boolean request(@RequestBody PayHistory payHistory);
 

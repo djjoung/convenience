@@ -22,14 +22,14 @@ public class ReservationController {
 	@Autowired
 	ReservationRepository reservationRepository;
 	
-	//@ApiOperation(value = "상품 리스트 가져오기")
+	//@ApiOperation(value = "예약 상품 리스트 가져오기")
 	@GetMapping("/list")
 	public ResponseEntity<List<Reservation>> getReservationList() {
 		List<Reservation> reservations = reservationRepository.findAll();
 		return ResponseEntity.ok(reservations);
 	}
 	
-	//@ApiOperation(value = "상품 가져오기")
+	//@ApiOperation(value = "예약 상품 가져오기")
 	@GetMapping("/get/{id}")
 	public ResponseEntity<Reservation> getReservation(@PathVariable Long id) {
 		Reservation reservation = reservationRepository.findById(id).orElseThrow(null);
@@ -48,8 +48,8 @@ public class ReservationController {
 	}
 	
 	//@ApiOperation(value = "예약 취소하기")
-	@PatchMapping("/cancel")
-	public ResponseEntity<Reservation> cancelReservation(@RequestBody Long id) {
+	@PatchMapping("/cancel/{id}")
+	public ResponseEntity<Reservation> cancelReservation(@PathVariable Long id) {
 		Reservation reservation = reservationRepository.findById(id).orElseThrow(null);
 		DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String dateStr = format.format(Calendar.getInstance().getTime());
@@ -57,6 +57,12 @@ public class ReservationController {
 		reservation.setStatus("CANCEL");
 		Reservation canceledReservation = reservationRepository.save(reservation);
 		return ResponseEntity.ok(canceledReservation);
+	}
+	
+	@PatchMapping("/deleteall")
+	public ResponseEntity<String> deleteAll() {
+		reservationRepository.deleteAll();
+		return ResponseEntity.ok("DELETED");
 	}
 	
 }

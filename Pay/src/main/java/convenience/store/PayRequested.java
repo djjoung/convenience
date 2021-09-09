@@ -4,15 +4,18 @@ public class PayRequested extends AbstractEvent {
     
     private String payStatus;
     private Long productId;
-    private Long reserveQty;
+    private Integer reserveQty;
     private Long customerId;
     private String customerName;
+    private String customerPhone;
     private Long reserveId;
-
+    private String reserveStatus;
+    private String reserveDate;
+    
     public PayRequested(){
         super();
     }
-
+    
     public String getPayStatus() {
         return payStatus;
     }
@@ -29,11 +32,11 @@ public class PayRequested extends AbstractEvent {
 		this.productId = productId;
 	}
 
-	public Long getReserveQty() {
+	public Integer getReserveQty() {
 		return reserveQty;
 	}
 
-	public void setReserveQty(Long reserveQty) {
+	public void setReserveQty(Integer reserveQty) {
 		this.reserveQty = reserveQty;
 	}
 
@@ -59,4 +62,30 @@ public class PayRequested extends AbstractEvent {
     public void setReserveId(Long reserveId) {
         this.reserveId = reserveId;
     }
+
+	public String getCustomerPhone() {
+		return customerPhone;
+	}
+
+	public void setCustomerPhone(String customerPhone) {
+		this.customerPhone = customerPhone;
+	}
+
+	public String getReserveStatus() {
+		return reserveStatus;
+	}
+
+	public void setReserveStatus(String reserveStatus) {
+		this.reserveStatus = reserveStatus;
+	}
+
+	public String getReserveDate() {
+		return reserveDate;
+	}
+
+	public void setReserveDate(String reserveDate) {
+		this.reserveDate = reserveDate;
+	}
+    
+    
 }

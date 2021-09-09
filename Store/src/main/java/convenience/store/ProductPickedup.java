@@ -4,10 +4,10 @@ public class ProductPickedup extends AbstractEvent {
 
     private Long id;
     private Long reserveId;
-    private String productName;
+    private Long productId;
     private Integer productPrice;
     private Integer productQty;    
-    private String productStatus;
+    private String reserveStatus;
 
     public ProductPickedup(){
         super();
@@ -20,7 +20,7 @@ public class ProductPickedup extends AbstractEvent {
     public void setId(Long id) {
         this.id = id;
     }
-    
+
 	public Long getReserveId() {
 		return reserveId;
 	}
@@ -29,12 +29,12 @@ public class ProductPickedup extends AbstractEvent {
 		this.reserveId = reserveId;
 	}
 
-	public String getProductName() {
-		return productName;
+	public Long getProductId() {
+		return productId;
 	}
 
-	public void setProductName(String productName) {
-		this.productName = productName;
+	public void setProductId(Long productId) {
+		this.productId = productId;
 	}
 
 	public Integer getProductPrice() {
@@ -53,13 +53,15 @@ public class ProductPickedup extends AbstractEvent {
 		this.productQty = productQty;
 	}
 
-	public String getProductStatus() {
-		return productStatus;
+	public String getReserveStatus() {
+		return reserveStatus;
 	}
 
-	public void setProductStatus(String productStatus) {
-		this.productStatus = productStatus;
+	public void setReserveStatus(String reserveStatus) {
+		this.reserveStatus = reserveStatus;
 	}
+    
+    
     
     
 }
