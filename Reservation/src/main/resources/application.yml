@@ -1,5 +1,5 @@
 server:
-  port: 8080  #for cloud
+  port: 8080
 
 ---
 
@@ -115,3 +115,6 @@ hystrix:
 api:
   url:
     pay: http://pay:8080/pay
+
+server:
+  port: 8080  #for cloud

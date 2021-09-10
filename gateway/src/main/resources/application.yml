@@ -47,23 +47,23 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: reservation
+        - id: Reservation
           uri: http://reservation:8080
           predicates:
             - Path=/reservation/** 
-        - id: pay
+        - id: Pay
           uri: http://pay:8080
           predicates:
             - Path=/pay/** 
-        - id: store
+        - id: Store
           uri: http://store:8080
           predicates:
             - Path=/product/** 
-        - id: view
+        - id: View
           uri: http://view:8080
           predicates:
             - Path= /dashboard/**
-        - id: supplier
+        - id: Supplier
           uri: http://supplier:8080
           predicates:
             - Path=/stock/** 
