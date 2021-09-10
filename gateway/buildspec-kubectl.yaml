@@ -55,6 +55,8 @@ phases:
                 targetPort: 8080
             selector:
               app: $_POD_NAME
+            type:
+                LoadBalancer              
           EOF
       - |
           cat  <<EOF | kubectl apply -f -
