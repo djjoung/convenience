@@ -8,8 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.Date;
 
-//@FeignClient(name="pay", url="http://localhost:8082/pay", fallback = PayHistoryServiceImpl.class)  // for local
-@FeignClient(name="pay", url="http://pay:8080/pay", fallback = PayHistoryServiceImpl.class)  // for cloud
+@FeignClient(name="pay", url="${api.url.pay}", fallback = PayHistoryServiceImpl.class)
 public interface PayHistoryService {
 	
     @RequestMapping(method= RequestMethod.POST, path="/request")

@@ -19,7 +19,6 @@ spring:
     url: jdbc:h2:mem:testdb
     username: sa
     password: 
-
   cloud:
     stream:
       kafka:
@@ -56,6 +55,11 @@ logging:
   level:
     org.hibernate.type: trace
     org.springframework.cloud: debug
+
+api:
+  url:
+    pay: http://localhost:8082/pay
+
 server:
   port: 8081
 ---
@@ -107,3 +111,7 @@ hystrix:
     # 전역설정 timeout이 610ms 가 넘으면 CB 처리.
     default:
       execution.isolation.thread.timeoutInMilliseconds: 610
+
+api:
+  url:
+    pay: http://pay:8080/pay
