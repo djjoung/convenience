@@ -3,7 +3,7 @@ version: 0.2
 env:
   variables:
     _PROJECT_NAME: "user-dongjin-view"
-    _POD_NAME: "supplier"  # low case character
+    _POD_NAME: "view"  # low case character
 
 phases:
   install:
