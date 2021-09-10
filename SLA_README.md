@@ -68,6 +68,13 @@ Default output format [None]: json
 > kubectl get all -n kafka
 ```
 
+- Kafka Listen  확인.
+```
+> kubectl exec -it my-kafka-0 -n kafka -- bash
+> kafka-console-consumer --bootstrap-server my-kafka.kafka.svc.cluster.local:9092 --topic convenience --from-beginning
+```
+<br/>
+
 ### ◆ PVC (Persistant volume claim) 설정.
 - EFS 생성
   - **교재-Container-Orchestration(AWS)_2021.pdf Page.132 참고**
@@ -298,45 +305,48 @@ hystrix:
   - 60초 동안 실시
   - Reservation 서비스의 log 확인.
 ```
-siege -c100 -t60S -r10 --content-type "application/json" 'http://localhost:8081/reservations POST {"productName": "TV","qty": "1"}'
+siege -c100 -t30S --content-type "application/json" 'http://reservation:8080/reservation/order POST {"productId":1,"productName":"Galaxy","productPrice":125000,"customerId":99,"customerName":"Anderson","customerPhone":"010-1234-5678","qty":1}'
 
 
 ** SIEGE 4.1.1
 ** Preparing 100 concurrent users for battle.
 The server is now under siege...
-HTTP/1.1 201     2.19 secs:     378 bytes ==> POST http://localhost:8081/reservations
-HTTP/1.1 201     2.20 secs:     378 bytes ==> POST http://localhost:8081/reservations
-HTTP/1.1 201     2.20 secs:     378 bytes ==> POST http://localhost:8081/reservations
-HTTP/1.1 201     2.20 secs:     378 bytes ==> POST http://localhost:8081/reservations
-HTTP/1.1 201     2.20 secs:     378 bytes ==> POST http://localhost:8081/reservations
-HTTP/1.1 201     2.21 secs:     378 bytes ==> POST http://localhost:8081/reservations
-HTTP/1.1 201     2.21 secs:     378 bytes ==> POST http://localhost:8081/reservations
-HTTP/1.1 201     2.21 secs:     378 bytes ==> POST http://localhost:8081/reservations
-HTTP/1.1 201     2.22 secs:     378 bytes ==> POST http://localhost:8081/reservations
-HTTP/1.1 201     2.22 secs:     378 bytes ==> POST http://localhost:8081/reservations
-HTTP/1.1 201     2.66 secs:     378 bytes ==> POST http://localhost:8081/reservations
+HTTP/1.1 201     2.19 secs:     378 bytes ==> POST http://reservation:8080/reservation/order
+HTTP/1.1 201     2.20 secs:     378 bytes ==> POST http://reservation:8080/reservation/order
+HTTP/1.1 201     2.20 secs:     378 bytes ==> POST http://reservation:8080/reservation/order
+HTTP/1.1 201     2.20 secs:     378 bytes ==> POST http://reservation:8080/reservation/order
+HTTP/1.1 201     2.20 secs:     378 bytes ==> POST http://reservation:8080/reservation/order
+HTTP/1.1 201     2.21 secs:     378 bytes ==> POST http://reservation:8080/reservation/order
+HTTP/1.1 201     2.21 secs:     378 bytes ==> POST http://reservation:8080/reservation/order
+HTTP/1.1 201     2.21 secs:     378 bytes ==> POST http://reservation:8080/reservation/order
+HTTP/1.1 201     2.22 secs:     378 bytes ==> POST http://reservation:8080/reservation/order
+HTTP/1.1 201     2.22 secs:     378 bytes ==> POST http://reservation:8080/reservation/order
+HTTP/1.1 201     2.66 secs:     378 bytes ==> POST http://reservation:8080/reservation/order
 
 
 
 
 Lifting the server siege...
-Transactions:		         670 hits
+Transactions:		        8776 hits
 Availability:		      100.00 %
-Elapsed time:		       59.68 secs
-Data transferred:	        0.26 MB
-Response time:		        8.43 secs
-Transaction rate:	       11.23 trans/sec
-Throughput:		        0.00 MB/sec
-Concurrency:		       94.66
-Successful transactions:         708
+Elapsed time:		       29.83 secs
+Data transferred:	        1.67 MB
+Response time:		        0.34 secs
+Transaction rate:	      294.20 trans/sec
+Throughput:		        0.06 MB/sec
+Concurrency:		       99.32
+Successful transactions:        8776
 Failed transactions:	           0
-Longest transaction:	       16.39
+Longest transaction:	        2.24
 Shortest transaction:	        0.00
 
 ```
  
 ```
 @@@@@@@ 결재 지연중 입니다. @@@@@@@@@@@@
+@@@@@@@ 결재 지연중 입니다. @@@@@@@@@@@@
+@@@@@@@ 결재 지연중 입니다. @@@@@@@@@@@@
+########## 결제가 실패하였습니다 ############
 ```
 - 부하 테스트에서 100% 가 성공함. CB 발생시 FeinClient의 Fallback이 동작하여 결재 지연 메세지를 고객에게 보여줌 으로 다른 동작 하지 못하게 함. 
 
@@ -358,7 +368,7 @@ kubectl autoscale deploy pay --min=1 --max=10 --cpu-percent=15
 
 - CB 에서 했던 방식대로 워크로드를 2분 동안 걸어준다.
 ```
-siege -c100 -t60S -r10 --content-type "application/json" 'http://localhost:8081/reservations POST {"productName": "TV","qty": "1"}'
+siege -c100 -t120S --content-type "application/json" 'http://reservation:8080/reservation/order POST {"productId":1,"productName":"Galaxy","productPrice":125000,"customerId":99,"customerName":"Anderson","customerPhone":"010-1234-5678","qty":1}'
 ```
 - 오토스케일이 어떻게 되고 있는지 모니터링을 걸어둔다:
 ```
@@ -412,7 +422,7 @@ kubectl get deploy reservation -o yaml
 
 - Liveness Probe 확인 
 ```
-> http http://Reservation:8080/actuator/health      # Liveness Probe 확인
+> http http://reservation:8080/actuator/health      # Liveness Probe 확인
 
 HTTP/1.1 200 
 Content-Type: application/vnd.spring-boot.actuator.v2+json;charset=UTF-8
@@ -427,8 +437,8 @@ Transfer-Encoding: chunked
 - Liveness Probe Fail 설정 및 확인 
   - Reservation Liveness Probe를 명시적으로 Fail 상태로 전환한다.
 ```
-> http DELETE http://Reservation:8080/healthcheck    #actuator health 를 DOWN 시킨다.
-> http http://Reservation:8080/actuator/health
+> http DELETE http://reservation:8080/healthcheck    #actuator health 를 DOWN 시킨다.
+> http http://reservation:8080/actuator/health
 HTTP/1.1 503 
 Connection: close
 Content-Type: application/vnd.spring-boot.actuator.v2+json;charset=UTF-8
@@ -486,7 +496,7 @@ Events:
 ```
 > kubectl create deploy siege --image=ghcr.io/acmexii/siege-nginx:latest    # 이미 생성이 된 경우 무시.
 > kubectl exec pod/[SIEGE-POD객체] -it -- /bin/bash
-> siege -v -c1 -t120S http://Reservation:8080/reservations
+> siege -v -c1 -t120S http://reservation:8080/reservations
 ```
 
 - pod의 상태 모니터링

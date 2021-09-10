@@ -64,5 +64,23 @@ public class ReservationController {
 		reservationRepository.deleteAll();
 		return ResponseEntity.ok("DELETED");
 	}
+
+
+	// CPU 부하 코드
+	@GetMapping("/hpa")
+	public String testHPA(){
+		double x = 0.0001;
+		String hostname = "";
+		for (int i = 0; i <= 1000000; i++){
+			x += java.lang.Math.sqrt(x);
+		}
+		try{
+			hostname = java.net.InetAddress.getLocalHost().getHostName();
+		} catch(java.net.UnknownHostException e){
+			e.printStackTrace();
+		}
+
+		return "====== HPA Test(" + hostname + ") ====== \n";
+	}	
 	
 }

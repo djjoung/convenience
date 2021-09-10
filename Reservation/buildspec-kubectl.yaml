@@ -65,7 +65,20 @@ phases:
             labels:
               app: $_POD_NAME
           spec:
-            replicas: 1
+            #replicas: 1
+            minReplicas: 1
+            maxReplicas: 10
+            # Scale condition
+            metrics:
+            - resource:
+              name: cpu
+              targetAverageUilization: 5
+            type: Resource
+            #Configure Scale Replicaset
+            scaleTargetRef:
+              apiVersion: apps/v1
+              kind: Deployment
+              name: $_POD_NAME
             selector:
               matchLabels:
                 app: $_POD_NAME
