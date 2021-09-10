@@ -123,7 +123,7 @@ phases:
                 target:
                   type: Utilization
                   averageUtilization: 5
-          EOF          
+          EOF
 cache:
   paths:
     - '/root/.m2/**/*'
