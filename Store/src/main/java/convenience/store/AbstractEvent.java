@@ -12,6 +12,7 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.io.*;
 
 public class AbstractEvent {
 
@@ -67,6 +68,20 @@ public class AbstractEvent {
             }
         });
     }
+
+    // PVC Test
+    public void saveJasonToPvc(String strJson){
+        
+        File file = new File("/mnt/aws/productPickedupjson.txt");
+
+		try {
+			BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+			writer.write(strJson);
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}     
 
 
     public String getEventType() {

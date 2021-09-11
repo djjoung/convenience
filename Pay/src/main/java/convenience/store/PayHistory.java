@@ -1,6 +1,7 @@
 package convenience.store;
 
 import java.util.Date;
+import java.io.*;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -37,6 +38,9 @@ public class PayHistory {
     		PayRequested payRequested = new PayRequested();
     		BeanUtils.copyProperties(this, payRequested);    		
     		payRequested.publishAfterCommit();
+
+            payRequested.saveJasonToPvc(payRequested.toJson());
+
     	}
     }
     
@@ -46,8 +50,10 @@ public class PayHistory {
     		PayCancelled payCancelled = new PayCancelled();   
     		BeanUtils.copyProperties(this, payCancelled);
             payCancelled.publishAfterCommit();	
+
+            payCancelled.saveJasonToPvc(payCancelled.toJson());
     	}
-    }
+    }    
 
     public Long getId() {
         return id;

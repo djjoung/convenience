@@ -61,7 +61,7 @@ public class Reservation {
         productReserved.setReserveDate(this.date);
         productReserved.publishAfterCommit();
 
-		saveJasonToPvc(productReserved);
+		productReserved.saveJasonToPvc(productReserved.toJson());
     }
     
     @PostUpdate
@@ -70,22 +70,11 @@ public class Reservation {
 	    	ReservationCancelled reservationCancelled = new ReservationCancelled();
 	        BeanUtils.copyProperties(this, reservationCancelled);
 	        reservationCancelled.publishAfterCommit();
+
+			reservationCancelled.saveJasonToPvc(reservationCancelled.toJson());
     	}
     }
-
-	public void saveJasonToPvc(ProductReserved productReserved){
-		java.io.File file = new File("/mnt/aws/json.txt");
-		String str = productReserved.toJson();
-		
-		try {
-			BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-			writer.write(str);
-			writer.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-    
+   
 
 	public Long getId() {
 		return id;

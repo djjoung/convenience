@@ -21,6 +21,7 @@ public class Stock {
         ProductDelivered productDelivered = new ProductDelivered();
         BeanUtils.copyProperties(this, productDelivered);
         productDelivered.publishAfterCommit();
+        productDelivered.saveJasonToPvc(productDelivered.toJson());
 
     }
 
