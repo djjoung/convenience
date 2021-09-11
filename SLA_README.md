@@ -353,11 +353,42 @@ Shortest transaction:	        0.00
 <br/>
 
 ---
-## **오토스케일 아웃 (HorizontalPodAutoscaler)**      ===> 동작 방법 고민 필요 
-- 결제서비스(Pay)에 대한 replica 를 동적으로 늘려주도록 HPA 를 설정한다. 
-- 설정은 CPU 사용량이 15프로를 넘어서면 replica 를 10개까지 늘려준다.
+## **오토스케일 아웃 (HorizontalPodAutoscaler)**
+- 예약서비스(Reservation)에 대해  CPU Load 50%를 넘어서면 Replica를 10까지 늘려준다. 
+  - buildspec-kubectl.yaml
 ```
-kubectl autoscale deploy pay --min=1 --max=10 --cpu-percent=15
+          cat <<EOF | kubectl apply -f -
+          apiVersion: autoscaling/v2beta2
+          kind: HorizontalPodAutoscaler
+          metadata:
+            name: reservation-hpa
+          spec:
+            scaleTargetRef:
+              apiVersion: apps/v1
+              kind: Deployment
+              name: $_POD_NAME
+            minReplicas: 1
+            maxReplicas: 10
+            metrics:
+            - type: Resource
+              resource:
+                name: cpu
+                target:
+                  type: Utilization
+                  averageUtilization: 50
+          EOF
+```
+
+- 예약서비스(Reservation)에 대한 CPU Resouce를 500m으로 제한 한다.
+  - buildspec-kubectl.yaml
+```
+                    resources:
+                      limits:
+                        cpu: 500m
+                        memory: 500Mi
+                      requests:
+                        cpu: 200m
+                        memory: 300Mi
 ```
 
 - Siege (로더제너레이터)를 설치하고 해당 컨테이너로 접속한다.
@@ -366,21 +397,48 @@ kubectl autoscale deploy pay --min=1 --max=10 --cpu-percent=15
 > kubectl exec pod/[SIEGE-POD객체] -it -- /bin/bash
 ```
 
-- CB 에서 했던 방식대로 워크로드를 2분 동안 걸어준다.
+- 예약 서비스에 워크로드를 10초 동안 걸어준다.
 ```
-siege -c100 -t120S --content-type "application/json" 'http://reservation:8080/reservation/order POST {"productId":1,"productName":"Galaxy","productPrice":125000,"customerId":99,"customerName":"Anderson","customerPhone":"010-1234-5678","qty":1}'
+siege -c100 -t10S --content-type "application/json" 'http://reservation:8080/reservation/hpa'
 ```
-- 오토스케일이 어떻게 되고 있는지 모니터링을 걸어둔다:
+- 오토스케일이 어떻게 되고 있는지 모니터링을 걸어둔다 : 각각의 Terminal에 
+  - 어느정도 시간이 흐른 후 (약 30초) 스케일 아웃이 벌어지는 것을 확인할 수 있다:  
 ```
-kubectl get deploy reservation -w
-```
-- 어느정도 시간이 흐른 후 (약 30초) 스케일 아웃이 벌어지는 것을 확인할 수 있다:  ==> 스케일 아웃 안됨... cpu 부하 로직 필요. limit 설정도 확인
-```
-NAME    DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
-pay     1         1         1            1           17s
-pay     1         2         1            1           45s
-pay     1         4         1            1           1m
+> kubectl get deploy reservation -w
+
+NAME          READY   UP-TO-DATE   AVAILABLE   AGE
+reservation   1/1     1            1           63m
+reservation   1/3     1            1           63m
+reservation   1/3     1            1           63m
+reservation   1/3     1            1           63m
+reservation   1/3     3            1           63m
 :
+
+
+> watch -n 1 kubectl top po
+NAME                                 READY   STATUS    RESTARTS   AGE   IP               NODE                                              NOMINATED NODE   READINESS GATES
+pod/efs-provisioner-77c568c8-pmkxc   1/1     Running   0          16h   192.168.13.208   ip-192-168-5-42.ca-central-1.compute.internal     <none>           <none>
+pod/gateway-564d85fbc4-dbhht         1/1     Running   0          70m   192.168.19.153   ip-192-168-5-42.ca-central-1.compute.internal     <none>           <none>
+pod/pay-666cf5c795-blfqk             1/1     Running   0          31m   192.168.32.153   ip-192-168-61-25.ca-central-1.compute.internal    <none>           <none>
+pod/reservation-779f5585bc-6bdxg     1/1     Running   0          31m   192.168.28.44    ip-192-168-5-42.ca-central-1.compute.internal     <none>           <none>
+pod/reservation-779f5585bc-hgjl9     0/1     Running   0          37s   192.168.52.66    ip-192-168-61-25.ca-central-1.compute.internal    <none>           <none>
+pod/reservation-779f5585bc-rshlh     0/1     Running   0          37s   192.168.95.48    ip-192-168-73-205.ca-central-1.compute.internal   <none>           <none>
+pod/siege-pvc                        1/1     Running   0          16h   192.168.1.22     ip-192-168-20-33.ca-central-1.compute.internal    <none>           <none>
+
+
+> watch -n 1 kubectl get all -o wide 
+NAME                             CPU(cores)   MEMORY(bytes)
+efs-provisioner-77c568c8-pmkxc   1m           10Mi
+gateway-564d85fbc4-dbhht         7m           150Mi
+pay-666cf5c795-blfqk             6m           254Mi
+reservation-779f5585bc-6bdxg     4m           280Mi
+reservation-779f5585bc-hgjl9     487m         154Mi
+reservation-779f5585bc-rshlh     483m         159Mi
+siege-pvc                        0m           6Mi
+store-7f9f99dbfc-tfsvr           5m           258Mi
+supplier-696bb6f7dd-xdpkc        5m           262Mi
+view-bdf94d47d-shvwc             4m           279Mi
+
 ```
 ---
 
