@@ -12,6 +12,7 @@ public class ProductReserved extends AbstractEvent {
     private String productName;
     private String date;
     private String status;
+    private String reserveDate;
 
     public ProductReserved(){
         super();
@@ -89,6 +90,16 @@ public class ProductReserved extends AbstractEvent {
 	public void setStatus(String status) {
 		this.status = status;
 	}
+
+	public String getReserveDate() {
+		return reserveDate;
+	}
+
+	public void setReserveDate(String reserveDate) {
+		this.reserveDate = reserveDate;
+	}
+	
+	
 	
 	   
 }

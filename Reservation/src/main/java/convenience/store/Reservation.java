@@ -1,5 +1,7 @@
 package convenience.store;
 
+import java.io.*;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -56,7 +58,10 @@ public class Reservation {
     	ProductReserved productReserved = new ProductReserved();
     	BeanUtils.copyProperties(this, productReserved);
         productReserved.setReserveQty(this.qty);
+        productReserved.setReserveDate(this.date);
         productReserved.publishAfterCommit();
+
+		saveJasonToPvc(productReserved);
     }
     
     @PostUpdate
@@ -67,6 +72,19 @@ public class Reservation {
 	        reservationCancelled.publishAfterCommit();
     	}
     }
+
+	public void saveJasonToPvc(ProductReserved productReserved){
+		java.io.File file = new File("/mnt/aws/json.txt");
+		String str = productReserved.toJson();
+		
+		try {
+			BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+			writer.write(str);
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
     
 
 	public Long getId() {

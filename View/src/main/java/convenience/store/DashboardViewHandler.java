@@ -7,6 +7,9 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,23 +21,27 @@ public class DashboardViewHandler {
     private DashboardRepository dashboardRepository;
 
     @StreamListener(KafkaProcessor.INPUT)
-    public void whenProductReserved_then_CREATE_1 (@Payload ProductReserved productReserved) {
+    public void whenProductReserved_then_create(@Payload ProductReserved productReserved) {
         try {
 
             if (!productReserved.validate()) return;
+            System.out.println("\n\n##### listener ProductReserved : " + productReserved.toJson() + "\n\n");
 
             // view 객체 생성
-            Dashboard dashboard = new Dashboard();
-            // view 객체에 이벤트의 Value 를 set 함
-            dashboard.setId(productReserved.getProductId());
+            Dashboard dashboard = new Dashboard();            
+
+            dashboard.setProductId(productReserved.getProductId());
             dashboard.setProductName(productReserved.getProductName());
             dashboard.setProductPrice(productReserved.getProductPrice());
-            dashboard.setReserveQty(productReserved.getReserveQty());
             dashboard.setCustomerId(productReserved.getCustomerId());
             dashboard.setCustomerName(productReserved.getCustomerName());
             dashboard.setCustomerPhone(productReserved.getCustomerPhone());
             dashboard.setReserveId(productReserved.getId());
-            // view 레파지 토리에 save
+            dashboard.setReserveQty(productReserved.getReserveQty());
+            dashboard.setReserveDate(productReserved.getReserveDate());
+            dashboard.setReserveStatus(productReserved.getStatus());
+            dashboard.setTotalPrice(productReserved.getReserveQty() * productReserved.getProductPrice());
+
             dashboardRepository.save(dashboard);
 
         }catch (Exception e){
@@ -42,77 +49,43 @@ public class DashboardViewHandler {
         }
     }
 
-
+    
     @StreamListener(KafkaProcessor.INPUT)
-    public void whenPayRequested_then_UPDATE_1(@Payload PayRequested payRequested) {
-        try {
-            if (!payRequested.validate()) return;
-                // view 객체 조회
-
-                    List<Dashboard> dashboardList = dashboardRepository.findByReserveId(payRequested.getReservationId());
-                    for(Dashboard dashboard : dashboardList){
-                    // view 객체에 이벤트의 eventDirectValue 를 set 함
-                    dashboard.setPayHistoryId(payRequested.getId());
-                    dashboard.setPayHistoryStatus(payRequested.getPayStatus());
-                // view 레파지 토리에 save
-                dashboardRepository.save(dashboard);
-                }
-
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-    @StreamListener(KafkaProcessor.INPUT)
-    public void whenPayCancelled_then_UPDATE_2(@Payload PayCancelled payCancelled) {
+    public void whenPayCancelled_then_update(@Payload PayCancelled payCancelled) {
         try {
             if (!payCancelled.validate()) return;
-                // view 객체 조회
 
-                    List<Dashboard> dashboardList = dashboardRepository.findByReserveId(payCancelled.getReserveId());
-                    for(Dashboard dashboard : dashboardList){
-                    // view 객체에 이벤트의 eventDirectValue 를 set 함
-                    dashboard.setPayHistoryStatus(payCancelled.getPayStatus());
-                // view 레파지 토리에 save
-                dashboardRepository.save(dashboard);
-                }
+            Dashboard dashboard = dashboardRepository.findByReserveId(payCancelled.getReserveId());
+              
+            dashboard.setReserveStatus(payCancelled.getReserveStatus());
+            
+            DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			String dateStr = format.format(Calendar.getInstance().getTime());
+			dashboard.setCancelDate(dateStr);
+			
+            dashboardRepository.save(dashboard);
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
+    
+    
     @StreamListener(KafkaProcessor.INPUT)
-    public void whenStockReserved_then_UPDATE_3(@Payload StockReserved stockReserved) {
+    public void whenProductPickedup_then_update(@Payload ProductPickedup productPickup) {
         try {
-            if (!stockReserved.validate()) return;
-                // view 객체 조회
+            if (!productPickup.validate()) return;
 
-                    List<Dashboard> dashboardList = dashboardRepository.findByReserveStatus(stockReserved.getReserveStatus());
-                    for(Dashboard dashboard : dashboardList){
-                    // view 객체에 이벤트의 eventDirectValue 를 set 함
-                    dashboard.setReserveId(stockReserved.getReserveId());
-                // view 레파지 토리에 save
-                dashboardRepository.save(dashboard);
-                }
+			Dashboard dashboard = dashboardRepository.findByReserveId(productPickup.getReserveId());
+			dashboard.setReserveStatus(productPickup.getReserveStatus());
+			
+			DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			String dateStr = format.format(Calendar.getInstance().getTime());
+			dashboard.setPickupDate(dateStr);
+			
+			dashboardRepository.save(dashboard);
 
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-    @StreamListener(KafkaProcessor.INPUT)
-    public void whenStockReserveCancelled_then_UPDATE_4(@Payload StockReserveCancelled stockReserveCancelled) {
-        try {
-            if (!stockReserveCancelled.validate()) return;
-                // view 객체 조회
-
-                    List<Dashboard> dashboardList = dashboardRepository.findByReserveStatus(stockReserveCancelled.getReserveStatus());
-                    for(Dashboard dashboard : dashboardList){
-                    // view 객체에 이벤트의 eventDirectValue 를 set 함
-                    dashboard.setReserveId(stockReserveCancelled.getReserveId());
-                // view 레파지 토리에 save
-                dashboardRepository.save(dashboard);
-                }
-
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
