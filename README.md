@@ -928,10 +928,11 @@ Shortest transaction:	        0.00
 
 - 예약 서비스(reseravation)에 워크로드를 동시 사용자 100명 60초 동안 진행한다.
 ```
-siege -c100 -t60S --content-type "application/json" 'http://reservation:8080/reservation/hpa'
+siege -c100 -t60S --content-type "application/json" 'http://reservation:8080/reservation/order POST {"productId":1,"productName":"Milk","productPrice":1200,"customerId":2,"customerName":"Sam","customerPhone":"010-9837-0279","qty":2}'
 ```
 - 오토스케일이 어떻게 되고 있는지 모니터링을 걸어둔다 : 각각의 Terminal에 
-  - 어느정도 시간이 흐른 후 (약 30초) 스케일 아웃이 벌어지는 것을 확인할 수 있다:  
+  - 어느정도 시간이 흐른 후 (약 30초) 스케일 아웃이 벌어지는 것을 확인할 수 있다.
+  
 ```
 > kubectl get deploy reservation -w
 
@@ -973,9 +974,8 @@ view-bdf94d47d-shvwc             4m           279Mi
 NAME              REFERENCE                TARGETS   MINPODS   MAXPODS   REPLICAS   AGE
 reservation-hpa   Deployment/reservation   1%/50%    1         10        6          82m	
 ```
-
-
-
+<br/>
+	
 ## Self Healing
 ### ◆ Liveness- HTTP Probe
 - 시나리오
@@ -1073,6 +1073,7 @@ Events:
   Warning  Unhealthy  4m36s (x8 over 15m)  kubelet            Readiness probe failed: HTTP probe failed with statuscode: 503
 ```
 
+	
 ## 무정지 재배포
 ### ◆ Rediness- HTTP Probe
 - 시나리오
@@ -1100,7 +1101,7 @@ Events:
 
 - 현재 구동중인 Reservation 서비스에 길게(3분) 부하를 준다. 
 ```
-> siege -v -c1 -t120S http://reservation:8080/reservations
+> siege -v -c1 -t120S --content-type "application/json" 'http://reservation:8080/reservation/order POST {"productId":1,"productName":"Milk","productPrice":1200,"customerId":2,"customerName":"Sam","customerPhone":"010-9837-0279","qty":2}'
 ```
 
 - pod의 상태 모니터링
