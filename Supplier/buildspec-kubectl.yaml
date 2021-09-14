@@ -2,7 +2,7 @@ version: 0.2
 
 env:
   variables:
-    _PROJECT_NAME: "user-dongjin-supplier"
+    _PROJECT_NAME: "convenience-stock"
     _POD_NAME: "supplier"  # low case character
 
 phases:

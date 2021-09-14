@@ -1,5 +1,5 @@
 server:
-  port: 8088
+  port: 8080
 
 ---
 
@@ -11,23 +11,23 @@ spring:
         - id: Reservation
           uri: http://localhost:8081
           predicates:
-            - Path=/reservations/** 
+            - Path=/reservation/** 
         - id: Pay
           uri: http://localhost:8082
           predicates:
-            - Path=/payHistories/** 
+            - Path=/pay/** 
         - id: Store
           uri: http://localhost:8083
           predicates:
-            - Path=/products/**/storeReservations/** 
+            - Path=/product/** 
         - id: View
           uri: http://localhost:8084
           predicates:
-            - Path= /dashboards/**
+            - Path= /dashboard/**
         - id: Supplier
           uri: http://localhost:8085
           predicates:
-            - Path=/stocks/** 
+            - Path=/stock/** 
       globalcors:
         corsConfigurations:
           '[/**]':
@@ -48,25 +48,25 @@ spring:
     gateway:
       routes:
         - id: Reservation
-          uri: http://Reservation:8080
+          uri: http://reservation:8080
           predicates:
-            - Path=/reservations/** 
+            - Path=/reservation/** 
         - id: Pay
-          uri: http://Pay:8080
+          uri: http://pay:8080
           predicates:
-            - Path=/payHistories/** 
+            - Path=/pay/** 
         - id: Store
-          uri: http://Store:8080
+          uri: http://store:8080
           predicates:
-            - Path=/products/**/storeReservations/** 
+            - Path=/product/** 
         - id: View
-          uri: http://View:8080
+          uri: http://view:8080
           predicates:
-            - Path= /dashboards/**
+            - Path= /dashboard/**
         - id: Supplier
-          uri: http://Supplier:8080
+          uri: http://supplier:8080
           predicates:
-            - Path=/stocks/** 
+            - Path=/stock/** 
       globalcors:
         corsConfigurations:
           '[/**]':

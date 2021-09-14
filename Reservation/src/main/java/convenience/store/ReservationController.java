@@ -48,8 +48,8 @@ public class ReservationController {
 	}
 	
 	//@ApiOperation(value = "예약 취소하기")
-	@PatchMapping("/cancel")
-	public ResponseEntity<Reservation> cancelReservation(@RequestBody Long id) {
+	@PatchMapping("/cancel/{id}")
+	public ResponseEntity<Reservation> cancelReservation(@PathVariable Long id) {
 		Reservation reservation = reservationRepository.findById(id).orElseThrow(null);
 		DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String dateStr = format.format(Calendar.getInstance().getTime());
@@ -64,5 +64,23 @@ public class ReservationController {
 		reservationRepository.deleteAll();
 		return ResponseEntity.ok("DELETED");
 	}
+
+
+	// CPU 부하 코드
+	@GetMapping("/hpa")
+	public String testHPA(){
+		double x = 0.0001;
+		String hostname = "";
+		for (int i = 0; i <= 1000000; i++){
+			x += java.lang.Math.sqrt(x);
+		}
+		try{
+			hostname = java.net.InetAddress.getLocalHost().getHostName();
+		} catch(java.net.UnknownHostException e){
+			e.printStackTrace();
+		}
+
+		return "====== HPA Test(" + hostname + ") ====== \n";
+	}	
 	
 }

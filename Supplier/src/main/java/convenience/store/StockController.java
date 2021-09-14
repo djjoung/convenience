@@ -10,5 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
  @RestController
+ @RequestMapping("/stock")
  public class StockController {
  }

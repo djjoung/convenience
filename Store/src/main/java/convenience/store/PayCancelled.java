@@ -16,6 +16,7 @@ public class PayCancelled extends AbstractEvent {
     public void setId(Long id) {
         this.id = id;
     }
+    
     public String getPayStatus() {
         return payStatus;
     }

@@ -2,7 +2,7 @@ version: 0.2
 
 env:
   variables:
-    _PROJECT_NAME: "user-dongjin-gateway"
+    _PROJECT_NAME: "convenience-gateway"
     _POD_NAME: "gateway"  # low case character
 
 phases:
@@ -55,6 +55,8 @@ phases:
                 targetPort: 8080
             selector:
               app: $_POD_NAME
+            type:
+                LoadBalancer              
           EOF
       - |
           cat  <<EOF | kubectl apply -f -

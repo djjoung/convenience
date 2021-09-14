@@ -27,6 +27,7 @@ public class StoreReservation {
     		ProductPickedup productPickedup = new ProductPickedup();
             BeanUtils.copyProperties(this, productPickedup);            
             productPickedup.publishAfterCommit();
+            productPickedup.saveJasonToPvc(productPickedup.toJson());
     	} else {
     		System.out.println("############ Nothing happened");
     	}    	

@@ -19,13 +19,12 @@ public class Dashboard {
         private String customerName;
         private String customerPhone;
         private Integer reserveQty;
-        private Date reserveDate;
-        private Date pickupDate;
+        private String reserveDate;
+        private String pickupDate;
         private Integer totalPrice;
-        private Long reserveId;
-        private Long payHistoryId;
-        private String payHistoryStatus;
+        private Long reserveId;        
         private String reserveStatus;
+        private String cancelDate;
 
 
         public Long getId() {
@@ -84,21 +83,24 @@ public class Dashboard {
         public void setReserveQty(Integer reserveQty) {
             this.reserveQty = reserveQty;
         }
-        public Date getReserveDate() {
-            return reserveDate;
-        }
+        
+        public String getReserveDate() {
+			return reserveDate;
+		}
 
-        public void setReserveDate(Date reserveDate) {
-            this.reserveDate = reserveDate;
-        }
-        public Date getPickupDate() {
-            return pickupDate;
-        }
+		public void setReserveDate(String reserveDate) {
+			this.reserveDate = reserveDate;
+		}
 
-        public void setPickupDate(Date pickupDate) {
-            this.pickupDate = pickupDate;
-        }
-        public Integer getTotalPrice() {
+		public String getPickupDate() {
+			return pickupDate;
+		}
+
+		public void setPickupDate(String pickupDate) {
+			this.pickupDate = pickupDate;
+		}
+
+		public Integer getTotalPrice() {
             return totalPrice;
         }
 
@@ -112,20 +114,7 @@ public class Dashboard {
         public void setReserveId(Long reserveId) {
             this.reserveId = reserveId;
         }
-        public Long getPayHistoryId() {
-            return payHistoryId;
-        }
-
-        public void setPayHistoryId(Long payHistoryId) {
-            this.payHistoryId = payHistoryId;
-        }
-        public String getPayHistoryStatus() {
-            return payHistoryStatus;
-        }
-
-        public void setPayHistoryStatus(String payHistoryStatus) {
-            this.payHistoryStatus = payHistoryStatus;
-        }
+ 
         public String getReserveStatus() {
             return reserveStatus;
         }
@@ -134,4 +123,13 @@ public class Dashboard {
             this.reserveStatus = reserveStatus;
         }
 
+		public String getCancelDate() {
+			return cancelDate;
+		}
+
+		public void setCancelDate(String cancelDate) {
+			this.cancelDate = cancelDate;
+		}
+        
+       
 }

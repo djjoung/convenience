@@ -37,6 +37,9 @@ public class PayHistory {
     		PayRequested payRequested = new PayRequested();
     		BeanUtils.copyProperties(this, payRequested);    		
     		payRequested.publishAfterCommit();
+
+            payRequested.saveJasonToPvc(payRequested.toJson());
+
     	}
     }
     
@@ -46,6 +49,8 @@ public class PayHistory {
     		PayCancelled payCancelled = new PayCancelled();   
     		BeanUtils.copyProperties(this, payCancelled);
             payCancelled.publishAfterCommit();	
+
+            payCancelled.saveJasonToPvc(payCancelled.toJson());
     	}
     }
 

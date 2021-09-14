@@ -2,7 +2,6 @@ package convenience.store;
 
 public class PayRequested extends AbstractEvent {
     
-	private Long id;
     private String payStatus;
     private Long productId;
     private Integer reserveQty;
@@ -17,14 +16,6 @@ public class PayRequested extends AbstractEvent {
         super();
     }
     
-    public Long getId() {
-		return id;
-	}
-
-    public void setId(Long id) {
-		this.id = id;
-	}
-
     public String getPayStatus() {
         return payStatus;
     }
