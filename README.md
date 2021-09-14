@@ -20,6 +20,7 @@
     - [CI/CD 설정](#cicd-설정)
     - [동기식 호출 / 서킷 브레이킹 / 장애격리](#동기식-호출--서킷-브레이킹--장애격리)
     - [오토스케일 아웃](#오토스케일-아웃)
+    - [Self-Healing](#self-healing)
     - [무정지 재배포](#무정지-재배포)
     - [Persistant Volume Claim](#persistant-volume-claim)
   - [신규 개발 조직의 추가](#신규-개발-조직의-추가)
@@ -908,43 +909,16 @@ Shortest transaction:	        0.00
           EOF
 ```
 
-- 예약서비스(reservation)에 대한 CPU Resouce를 500m으로 제한 한다.
+- 예약서비스(reservation)에 대한 CPU Resouce를 1000m으로 제한 한다.
   - buildspec-kubectl.yaml
 ```
                     resources:
                       limits:
-                        cpu: 500m
+                        cpu: 1000m
                         memory: 500Mi
                       requests:
-                        cpu: 200m
+                        cpu: 500m
                         memory: 300Mi
-```
-- 예약서비스(reservation)에 임의의 CPU Load 코드를 주입힌다. 
-```
-ReservationController.java
-
-            :
-            :
-	// CPU 부하 코드
-	@GetMapping("/hpa")
-	public String testHPA(){
-		double x = 0.0001;
-		String hostname = "";
-		for (int i = 0; i <= 1000000; i++){
-			x += java.lang.Math.sqrt(x);
-		}
-		try{
-			hostname = java.net.InetAddress.getLocalHost().getHostName();
-		} catch(java.net.UnknownHostException e){
-			e.printStackTrace();
-		}
-
-		return "====== HPA Test(" + hostname + ") ====== \n";
-	}	
-            :
-            :
-```
-
 
 - Siege (로더제너레이터)를 설치하고 해당 컨테이너로 접속한다.
 ```
@@ -952,9 +926,9 @@ ReservationController.java
 > kubectl exec pod/[SIEGE-POD객체] -it -- /bin/bash
 ```
 
-- 예약 서비스(reseravation)에 워크로드를 10초 동안 걸어준다.
+- 예약 서비스(reseravation)에 워크로드를 동시 사용자 100명 60초 동안 진행한다.
 ```
-siege -c100 -t10S --content-type "application/json" 'http://reservation:8080/reservation/hpa'
+siege -c100 -t60S --content-type "application/json" 'http://reservation:8080/reservation/hpa'
 ```
 - 오토스케일이 어떻게 되고 있는지 모니터링을 걸어둔다 : 각각의 Terminal에 
   - 어느정도 시간이 흐른 후 (약 30초) 스케일 아웃이 벌어지는 것을 확인할 수 있다:  
@@ -994,11 +968,15 @@ store-7f9f99dbfc-tfsvr           5m           258Mi
 supplier-696bb6f7dd-xdpkc        5m           262Mi
 view-bdf94d47d-shvwc             4m           279Mi
 
+	
+> kubectl get hpa
+NAME              REFERENCE                TARGETS   MINPODS   MAXPODS   REPLICAS   AGE
+reservation-hpa   Deployment/reservation   1%/50%    1         10        6          82m	
 ```
 
 
-## 무정지 재배포
-## Liveness & Readiness
+
+## Self Healing
 ### ◆ Liveness- HTTP Probe
 - 시나리오
   1. Reservation 서비스의 Liveness 설정을 확인힌다. 
@@ -1095,6 +1073,7 @@ Events:
   Warning  Unhealthy  4m36s (x8 over 15m)  kubelet            Readiness probe failed: HTTP probe failed with statuscode: 503
 ```
 
+## 무정지 재배포
 ### ◆ Rediness- HTTP Probe
 - 시나리오
   1. 현재 구동중인 Reservation 서비스에 길게(3분) 부하를 준다. 
