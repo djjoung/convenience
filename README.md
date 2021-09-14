@@ -919,6 +919,7 @@ Shortest transaction:	        0.00
                       requests:
                         cpu: 500m
                         memory: 300Mi
+```
 
 - Siege (로더제너레이터)를 설치하고 해당 컨테이너로 접속한다.
 ```
