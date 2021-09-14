@@ -732,8 +732,8 @@ GET http://localhost:8083/product/list     # 상품의 갯수가 예약한 갯�
   - convenience-store
   - convenience-stock
   - convenience-view
+<br/>
 
-- 생성한 CodeBuild  이미지 캡쳐 Capture
 
 - github의 각 서비스의 서브 폴더에 buildspec-kubect.yaml 위치.
 
@@ -744,9 +744,14 @@ GET http://localhost:8083/product/list     # 상품의 갯수가 예약한 갯�
 ![image](https://user-images.githubusercontent.com/22004206/133251040-94926311-83d1-422e-95d9-7a8950227966.png)
 
 
-- 연결된 github에 Commit 진행시 codebuild 진행 여부 및 성공 확인 
+- 연결된 github에 Commit 진행시 6개의 서비스들 build 진행 여부 및 성공 확인 
   - github 주소
     - https://github.com/AndersonSKCC/convenience
+
+![image](https://user-images.githubusercontent.com/22004206/133251313-c2df253e-0b98-4234-84a2-c829ab39a829.png)
+
+![image](https://user-images.githubusercontent.com/22004206/133251727-70c8ce0e-edb7-46bd-8876-6d242e29b05a.png)
+
 
 -	배포된 6개의 Service  확인
 ```
