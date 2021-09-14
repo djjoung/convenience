@@ -736,9 +736,11 @@ GET http://localhost:8083/product/list     # 상품의 갯수가 예약한 갯�
 - 생성한 CodeBuild  이미지 캡쳐 Capture
 
 - github의 각 서비스의 서브 폴더에 buildspec-kubect.yaml 위치.
-
-![image](https://user-images.githubusercontent.com/89987635/133092812-8a5088b6-b271-455b-92b8-beed0b3cb4ea.png)
-![image](https://user-images.githubusercontent.com/89987635/133094765-be075fa4-4433-44c2-b163-1e101abc92a7.png)
+![image](https://user-images.githubusercontent.com/22004206/133250463-b7c80d2c-e58b-4329-8ded-dca2b146215a.png)
+![image](https://user-images.githubusercontent.com/22004206/133250705-66c3e747-e3aa-4aa5-90a0-1e9efb4210c5.png)
+![image](https://user-images.githubusercontent.com/22004206/133250824-3e9689f6-2327-45dd-8322-bacad102e1d3.png)
+![image](https://user-images.githubusercontent.com/22004206/133250923-f62f98bb-28bb-4dea-ab6f-6b6b9081c9c1.png)
+![image](https://user-images.githubusercontent.com/22004206/133251040-94926311-83d1-422e-95d9-7a8950227966.png)
 
 
 - 연결된 github에 Commit 진행시 codebuild 진행 여부 및 성공 확인 
